@@ -601,7 +601,7 @@
       <h1>8 VISUAL BOARD</h1>
       <p>
         8人の写真を公式順に並べて、1枚の保存画像に。<br>
-        画像同士はシームレスにつながるので、アー写・オフショ・衣装別まとめをきれいに残せます。
+        つなぎ目をふわっとぼかして、タグ画像っぽい空気感でまとめられます。
       </p>
     </section>
 
@@ -634,6 +634,14 @@
             <span class="tiny">PNG素材を使用</span>
           </div>
 
+          <div class="toggle-row">
+            <label>
+              <input type="checkbox" id="blurSeams" checked>
+              つなぎ目をぼかす
+            </label>
+            <span class="tiny">タグ画像っぽく</span>
+          </div>
+
           <div class="section-title" style="margin-top: 14px;">
             ネームカラー
             <span class="tiny">白 / グレー</span>
@@ -646,12 +654,16 @@
 
           <div class="section-title" style="margin-top: 14px;">
             エフェクト
-            <span class="tiny">ふんわり補正</span>
+            <span class="tiny">全体の雰囲気を調整</span>
           </div>
 
           <div class="chips" id="effectChips">
             <button type="button" class="chip" data-effect="none">なし</button>
             <button type="button" class="chip is-active" data-effect="soft">ふんわり</button>
+            <button type="button" class="chip" data-effect="clear">透明感</button>
+            <button type="button" class="chip" data-effect="sparkle">きらきら</button>
+            <button type="button" class="chip" data-effect="film">フィルム</button>
+            <button type="button" class="chip" data-effect="mode">モード</button>
           </div>
         </div>
 
@@ -721,20 +733,21 @@
 
   <script>
     const MEMBERS = [
-      { key: "kairyu", label: "KAIRYU", files: { w: "./assets/names/kairyu_w.png", g: "./assets/names/kairyu_g.png" } },
-      { key: "naoya",  label: "NAOYA",  files: { w: "./assets/names/naoya_w.png",  g: "./assets/names/naoya_g.png" } },
-      { key: "ran",    label: "RAN",    files: { w: "./assets/names/ran_w.png",    g: "./assets/names/ran_g.png" } },
-      { key: "seito",  label: "SEITO",  files: { w: "./assets/names/seito_w.png",  g: "./assets/names/seito_g.png" } },
-      { key: "ryuki",  label: "RYUKI",  files: { w: "./assets/names/ryuki_w.png",  g: "./assets/names/ryuki_g.png" } },
-      { key: "takuto", label: "TAKUTO", files: { w: "./assets/names/takuto_w.png", g: "./assets/names/takuto_g.png" } },
-      { key: "hayato", label: "HAYATO", files: { w: "./assets/names/hayato_w.png", g: "./assets/names/hayato_g.png" } },
-      { key: "eiki",   label: "EIKI",   files: { w: "./assets/names/eiki_w.png",   g: "./assets/names/eiki_g.png" } }
+      { key: "kairyu", label: "KAIRYU", files: { w: "./assets/kairyu_w.png", g: "./assets/kairyu_g.png" } },
+      { key: "naoya",  label: "NAOYA",  files: { w: "./assets/naoya_w.png",  g: "./assets/naoya_g.png" } },
+      { key: "ran",    label: "RAN",    files: { w: "./assets/ran_w.png",    g: "./assets/ran_g.png" } },
+      { key: "seito",  label: "SEITO",  files: { w: "./assets/seito_w.png",  g: "./assets/seito_g.png" } },
+      { key: "ryuki",  label: "RYUKI",  files: { w: "./assets/ryuki_w.png",  g: "./assets/ryuki_g.png" } },
+      { key: "takuto", label: "TAKUTO", files: { w: "./assets/takuto_w.png", g: "./assets/takuto_g.png" } },
+      { key: "hayato", label: "HAYATO", files: { w: "./assets/hayato_w.png", g: "./assets/hayato_g.png" } },
+      { key: "eiki",   label: "EIKI",   files: { w: "./assets/eiki_w.png",   g: "./assets/eiki_g.png" } }
     ];
 
     const state = {
       layout: "4x2",
       bg: "milk",
       showNames: true,
+      blurSeams: true,
       nameColor: "w",
       effect: "soft",
       items: MEMBERS.map(() => ({
@@ -931,6 +944,24 @@
       drawBoard();
     }
 
+    function getImageFilter() {
+      switch (state.effect) {
+        case "soft":
+          return "brightness(1.04) saturate(1.08) contrast(0.97)";
+        case "clear":
+          return "brightness(1.08) saturate(0.98) contrast(0.94)";
+        case "sparkle":
+          return "brightness(1.07) saturate(1.12) contrast(1.02)";
+        case "film":
+          return "sepia(0.16) saturate(0.86) contrast(0.96) brightness(1.02)";
+        case "mode":
+          return "brightness(0.92) saturate(0.94) contrast(1.15)";
+        case "none":
+        default:
+          return "none";
+      }
+    }
+
     function drawCoverImage(ctx, img, dx, dy, dw, dh, item) {
       const baseScale = Math.max(dw / img.naturalWidth, dh / img.naturalHeight);
       const finalScale = baseScale * item.scale;
@@ -943,20 +974,18 @@
       const sx = dx + (dw - sw) / 2 + offsetX;
       const sy = dy + (dh - sh) / 2 + offsetY;
 
-      if (state.effect === "soft") {
+      if (state.effect === "soft" || state.effect === "sparkle" || state.effect === "clear") {
         ctx.save();
         ctx.filter = "blur(10px) brightness(1.08) saturate(1.08)";
-        ctx.globalAlpha = 0.18;
+        ctx.globalAlpha = state.effect === "sparkle" ? 0.12 : 0.16;
         ctx.drawImage(img, sx, sy, sw, sh);
         ctx.restore();
-
-        ctx.save();
-        ctx.filter = "brightness(1.04) saturate(1.08) contrast(0.97)";
-        ctx.drawImage(img, sx, sy, sw, sh);
-        ctx.restore();
-      } else {
-        ctx.drawImage(img, sx, sy, sw, sh);
       }
+
+      ctx.save();
+      ctx.filter = getImageFilter();
+      ctx.drawImage(img, sx, sy, sw, sh);
+      ctx.restore();
     }
 
     function drawPlaceholder(ctx, x, y, w, h) {
@@ -976,7 +1005,7 @@
       ctx.fillStyle = grad;
       ctx.fillRect(x, y, w, h);
 
-      if (state.effect === "soft") {
+      if (state.effect !== "none") {
         ctx.save();
 
         const glow = ctx.createRadialGradient(
@@ -988,7 +1017,7 @@
           w * 0.58
         );
 
-        glow.addColorStop(0, state.bg === "black" ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.45)");
+        glow.addColorStop(0, state.bg === "black" ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.38)");
         glow.addColorStop(1, "rgba(255,255,255,0)");
 
         ctx.fillStyle = glow;
@@ -1051,50 +1080,196 @@
       ctx.restore();
     }
 
-    function applyCuteOverlay(width, height) {
-      if (state.effect !== "soft") return;
+    function blurSeams(width, height, cols, rows, tileW, tileH) {
+      if (!state.blurSeams) return;
 
-      const softLight = ctx.createRadialGradient(
-        width * 0.5, height * 0.38, width * 0.05,
-        width * 0.5, height * 0.38, width * 0.78
-      );
-
-      softLight.addColorStop(0, "rgba(255,255,255,0.13)");
-      softLight.addColorStop(0.48, "rgba(255,238,247,0.08)");
-      softLight.addColorStop(1, "rgba(255,255,255,0)");
+      const band = Math.max(18, Math.round(tileW * 0.055));
 
       ctx.save();
-      ctx.fillStyle = softLight;
-      ctx.fillRect(0, 0, width, height);
-      ctx.restore();
+      ctx.filter = "blur(12px)";
+      ctx.globalAlpha = 0.62;
 
-      const tint = ctx.createLinearGradient(0, 0, width, height);
-      tint.addColorStop(0, "rgba(255,218,235,0.09)");
-      tint.addColorStop(0.5, "rgba(255,255,255,0.02)");
-      tint.addColorStop(1, "rgba(215,245,255,0.07)");
+      for (let c = 1; c < cols; c++) {
+        const x = c * tileW;
+        ctx.drawImage(canvas, x - band, 0, band * 2, height, x - band, 0, band * 2, height);
+      }
 
-      ctx.save();
-      ctx.fillStyle = tint;
-      ctx.fillRect(0, 0, width, height);
-      ctx.restore();
-
-      ctx.save();
-      ctx.globalAlpha = 0.07;
-      ctx.fillStyle = "#ffffff";
-
-      for (let i = 0; i < 18; i++) {
-        const px = Math.abs(Math.sin(i * 12.9898) * 43758.5453 % 1);
-        const py = Math.abs(Math.sin(i * 78.233) * 12345.6789 % 1);
-        const dotX = px * width;
-        const dotY = py * height;
-        const r = 2 + (i % 3);
-
-        ctx.beginPath();
-        ctx.arc(dotX, dotY, r, 0, Math.PI * 2);
-        ctx.fill();
+      for (let r = 1; r < rows; r++) {
+        const y = r * tileH;
+        ctx.drawImage(canvas, 0, y - band, width, band * 2, 0, y - band, width, band * 2);
       }
 
       ctx.restore();
+
+      ctx.save();
+      ctx.globalAlpha = 0.08;
+      ctx.fillStyle = "#ffffff";
+
+      for (let c = 1; c < cols; c++) {
+        const x = c * tileW;
+        const grad = ctx.createLinearGradient(x - band, 0, x + band, 0);
+        grad.addColorStop(0, "rgba(255,255,255,0)");
+        grad.addColorStop(0.5, "rgba(255,255,255,0.38)");
+        grad.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.fillStyle = grad;
+        ctx.fillRect(x - band, 0, band * 2, height);
+      }
+
+      for (let r = 1; r < rows; r++) {
+        const y = r * tileH;
+        const grad = ctx.createLinearGradient(0, y - band, 0, y + band);
+        grad.addColorStop(0, "rgba(255,255,255,0)");
+        grad.addColorStop(0.5, "rgba(255,255,255,0.34)");
+        grad.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, y - band, width, band * 2);
+      }
+
+      ctx.restore();
+    }
+
+    function drawStar(ctx, x, y, r, alpha) {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.translate(x, y);
+      ctx.rotate(Math.PI / 4);
+      ctx.fillStyle = "#ffffff";
+
+      ctx.beginPath();
+      ctx.moveTo(0, -r);
+      ctx.lineTo(r * 0.22, -r * 0.22);
+      ctx.lineTo(r, 0);
+      ctx.lineTo(r * 0.22, r * 0.22);
+      ctx.lineTo(0, r);
+      ctx.lineTo(-r * 0.22, r * 0.22);
+      ctx.lineTo(-r, 0);
+      ctx.lineTo(-r * 0.22, -r * 0.22);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    function applyEffectOverlay(width, height) {
+      if (state.effect === "none") return;
+
+      if (state.effect === "soft") {
+        const softLight = ctx.createRadialGradient(width * 0.5, height * 0.38, width * 0.05, width * 0.5, height * 0.38, width * 0.78);
+        softLight.addColorStop(0, "rgba(255,255,255,0.13)");
+        softLight.addColorStop(0.48, "rgba(255,238,247,0.08)");
+        softLight.addColorStop(1, "rgba(255,255,255,0)");
+
+        ctx.save();
+        ctx.fillStyle = softLight;
+        ctx.fillRect(0, 0, width, height);
+        ctx.restore();
+
+        const tint = ctx.createLinearGradient(0, 0, width, height);
+        tint.addColorStop(0, "rgba(255,218,235,0.09)");
+        tint.addColorStop(0.5, "rgba(255,255,255,0.02)");
+        tint.addColorStop(1, "rgba(215,245,255,0.07)");
+
+        ctx.save();
+        ctx.fillStyle = tint;
+        ctx.fillRect(0, 0, width, height);
+        ctx.restore();
+      }
+
+      if (state.effect === "clear") {
+        const veil = ctx.createLinearGradient(0, 0, width, height);
+        veil.addColorStop(0, "rgba(235,250,255,0.16)");
+        veil.addColorStop(0.45, "rgba(255,255,255,0.08)");
+        veil.addColorStop(1, "rgba(216,238,255,0.12)");
+
+        ctx.save();
+        ctx.fillStyle = veil;
+        ctx.fillRect(0, 0, width, height);
+        ctx.restore();
+
+        const light = ctx.createRadialGradient(width * 0.52, height * 0.34, width * 0.05, width * 0.52, height * 0.34, width * 0.72);
+        light.addColorStop(0, "rgba(255,255,255,0.16)");
+        light.addColorStop(1, "rgba(255,255,255,0)");
+
+        ctx.save();
+        ctx.fillStyle = light;
+        ctx.fillRect(0, 0, width, height);
+        ctx.restore();
+      }
+
+      if (state.effect === "sparkle") {
+        const tint = ctx.createLinearGradient(0, 0, width, height);
+        tint.addColorStop(0, "rgba(255,230,244,0.11)");
+        tint.addColorStop(0.55, "rgba(255,255,255,0.04)");
+        tint.addColorStop(1, "rgba(226,246,255,0.09)");
+
+        ctx.save();
+        ctx.fillStyle = tint;
+        ctx.fillRect(0, 0, width, height);
+        ctx.restore();
+
+        ctx.save();
+        ctx.globalCompositeOperation = "screen";
+
+        for (let i = 0; i < 26; i++) {
+          const px = Math.abs(Math.sin(i * 12.9898) * 43758.5453 % 1);
+          const py = Math.abs(Math.sin(i * 78.233) * 12345.6789 % 1);
+          const x = px * width;
+          const y = py * height;
+          const r = 2.5 + (i % 4);
+          const alpha = 0.12 + (i % 5) * 0.025;
+
+          if (i % 4 === 0) {
+            drawStar(ctx, x, y, r * 2.2, alpha + 0.06);
+          } else {
+            ctx.globalAlpha = alpha;
+            ctx.fillStyle = "#ffffff";
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        ctx.restore();
+      }
+
+      if (state.effect === "film") {
+        ctx.save();
+        ctx.globalAlpha = 0.12;
+        ctx.fillStyle = "#8b6f58";
+        ctx.fillRect(0, 0, width, height);
+        ctx.restore();
+
+        ctx.save();
+        ctx.globalAlpha = 0.10;
+
+        for (let i = 0; i < 900; i++) {
+          const x = Math.abs(Math.sin(i * 91.17) * 10000 % 1) * width;
+          const y = Math.abs(Math.sin(i * 17.31) * 10000 % 1) * height;
+          const shade = i % 2 === 0 ? 255 : 40;
+          ctx.fillStyle = `rgba(${shade},${shade},${shade},0.25)`;
+          ctx.fillRect(x, y, 1.2, 1.2);
+        }
+
+        ctx.restore();
+      }
+
+      if (state.effect === "mode") {
+        const vignette = ctx.createRadialGradient(width * 0.5, height * 0.42, width * 0.15, width * 0.5, height * 0.42, width * 0.82);
+        vignette.addColorStop(0, "rgba(0,0,0,0)");
+        vignette.addColorStop(0.72, "rgba(0,0,0,0.06)");
+        vignette.addColorStop(1, "rgba(0,0,0,0.23)");
+
+        ctx.save();
+        ctx.fillStyle = vignette;
+        ctx.fillRect(0, 0, width, height);
+        ctx.restore();
+
+        ctx.save();
+        ctx.globalAlpha = 0.09;
+        ctx.fillStyle = "#0f0d14";
+        ctx.fillRect(0, 0, width, height);
+        ctx.restore();
+      }
     }
 
     function drawBoard() {
@@ -1135,7 +1310,8 @@
         ctx.restore();
       }
 
-      applyCuteOverlay(width, height);
+      blurSeams(width, height, cols, rows, tileW, tileH);
+      applyEffectOverlay(width, height);
 
       for (let i = 0; i < MEMBERS.length; i++) {
         const member = MEMBERS[i];
@@ -1164,6 +1340,7 @@
       state.layout = "4x2";
       state.bg = "milk";
       state.showNames = true;
+      state.blurSeams = true;
       state.nameColor = "w";
       state.effect = "soft";
       state.items = MEMBERS.map(() => ({
@@ -1175,6 +1352,7 @@
       }));
 
       document.getElementById("showNames").checked = true;
+      document.getElementById("blurSeams").checked = true;
       setActiveChip("#layoutChips", "layout", "4x2");
       setActiveChip("#bgChips", "bg", "milk");
       setActiveChip("#nameColorChips", "nameColor", "w");
@@ -1287,6 +1465,11 @@
 
     document.getElementById("showNames").addEventListener("change", event => {
       state.showNames = event.target.checked;
+      drawBoard();
+    });
+
+    document.getElementById("blurSeams").addEventListener("change", event => {
+      state.blurSeams = event.target.checked;
       drawBoard();
     });
 
