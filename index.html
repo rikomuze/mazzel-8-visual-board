@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>8 VISUAL BOARD</title>
-  <meta name="description" content="8人の写真を公式順に並べて、1枚の保存・共有画像を作れる非公式ファンツールです。" />
+  <meta name="description" content="8人の写真を公式順に並べて、1枚の保存画像を作れる非公式ファンツールです。" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,22 +12,15 @@
 
   <style>
     :root {
-      --bg: #fff8fb;
-      --panel: rgba(255, 255, 255, 0.9);
       --ink: #25222a;
       --muted: #7d7481;
       --line: #eadde7;
-      --pink: #ffd6e7;
       --pink-strong: #ff8ab7;
-      --blue: #dff5ff;
-      --yellow: #fff1b8;
-      --shadow: 0 18px 45px rgba(89, 50, 80, 0.12);
+      --shadow: 0 16px 40px rgba(89, 50, 80, 0.12);
       --radius: 24px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -41,27 +33,16 @@
       min-height: 100vh;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button,
-    input,
-    label {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
+    a { color: inherit; text-decoration: none; }
+    button, input, label { font: inherit; }
+    button { cursor: pointer; }
 
     .common-header {
       position: sticky;
       top: 0;
       z-index: 50;
       backdrop-filter: blur(14px);
-      background: rgba(255, 248, 251, 0.82);
+      background: rgba(255, 248, 251, 0.84);
       border-bottom: 1px solid rgba(234, 221, 231, 0.9);
     }
 
@@ -90,7 +71,7 @@
       display: grid;
       place-items: center;
       border-radius: 999px;
-      background: linear-gradient(135deg, var(--pink), var(--blue));
+      background: linear-gradient(135deg, #ffd6e7, #dff5ff);
       box-shadow: 0 8px 18px rgba(255, 138, 183, 0.2);
       font-family: "Yomogi", cursive;
     }
@@ -110,7 +91,7 @@
       padding: 8px 12px;
       border: 1px solid var(--line);
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.72);
+      background: rgba(255,255,255,0.72);
     }
 
     .nav-links a.current {
@@ -122,12 +103,12 @@
     .page {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 30px 16px 70px;
+      padding: 22px 16px 84px;
     }
 
     .hero {
       text-align: center;
-      margin: 10px auto 24px;
+      margin: 6px auto 18px;
     }
 
     .eyebrow {
@@ -136,7 +117,7 @@
       gap: 6px;
       padding: 6px 12px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.75);
+      background: rgba(255,255,255,0.74);
       border: 1px solid var(--line);
       font-size: 12px;
       font-weight: 700;
@@ -146,7 +127,7 @@
 
     h1 {
       margin: 0;
-      font-size: clamp(38px, 8vw, 70px);
+      font-size: clamp(38px, 8vw, 68px);
       line-height: 0.95;
       letter-spacing: 0.02em;
       font-family: "Yomogi", "M PLUS Rounded 1c", sans-serif;
@@ -154,73 +135,51 @@
     }
 
     .hero p {
-      margin: 12px auto 0;
-      max-width: 700px;
-      font-size: 14px;
-      line-height: 1.9;
+      margin: 10px auto 0;
+      max-width: 560px;
+      font-size: 13px;
+      line-height: 1.8;
       color: var(--muted);
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .main-grid {
       display: grid;
       grid-template-columns: minmax(0, 1fr) 390px;
-      gap: 20px;
+      gap: 18px;
       align-items: start;
     }
 
     .card {
-      background: var(--panel);
-      border: 1px solid rgba(234, 221, 231, 0.9);
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(234,221,231,0.9);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow: hidden;
     }
 
-    .card-head {
-      padding: 18px 18px 14px;
-      border-bottom: 1px dashed var(--line);
+    .editor-wrap {
+      padding: 16px;
+      display: grid;
+      gap: 14px;
     }
 
-    .card-title {
-      font-weight: 800;
-      font-size: 18px;
-      display: flex;
-      align-items: center;
+    .toolbar {
+      display: grid;
+      gap: 12px;
+    }
+
+    .toolbar-group {
+      display: grid;
       gap: 8px;
     }
 
-    .card-note {
-      margin-top: 6px;
-      color: var(--muted);
+    .toolbar-label {
       font-size: 12px;
-      line-height: 1.7;
-      font-weight: 600;
-    }
-
-    .section {
-      padding: 18px;
-      border-bottom: 1px solid rgba(234, 221, 231, 0.72);
-    }
-
-    .section:last-child {
-      border-bottom: 0;
-    }
-
-    .section-title {
-      font-size: 13px;
-      font-weight: 800;
-      margin: 0 0 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .tiny {
-      font-size: 11px;
+      font-weight: 900;
       color: var(--muted);
-      font-weight: 700;
+      letter-spacing: 0.02em;
+      padding-left: 2px;
     }
 
     .chips {
@@ -247,35 +206,20 @@
       border-color: var(--ink);
     }
 
-    .toggle-row {
+    .actions-top {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      padding: 12px 14px;
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.68);
-      border: 1px solid var(--line);
-      margin-bottom: 10px;
-    }
-
-    .toggle-row:last-child {
-      margin-bottom: 0;
-    }
-
-    .toggle-row label {
-      display: flex;
-      align-items: center;
       gap: 8px;
-      font-size: 13px;
-      font-weight: 800;
-      cursor: pointer;
+      flex-wrap: wrap;
     }
 
-    .toggle-row input {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--pink-strong);
+    .mini-btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 9px 14px;
+      font-size: 12px;
+      font-weight: 800;
     }
 
     .upload-grid {
@@ -289,14 +233,14 @@
       border: 1px solid var(--line);
       border-radius: 18px;
       padding: 9px;
-      box-shadow: 0 8px 18px rgba(89, 50, 80, 0.06);
+      box-shadow: 0 8px 18px rgba(89,50,80,0.05);
     }
 
     .member-label {
       text-align: center;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 900;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
       margin-bottom: 6px;
     }
 
@@ -307,8 +251,7 @@
       border: 1.5px dashed #d7c6d3;
       border-radius: 14px;
       overflow: hidden;
-      background:
-        linear-gradient(135deg, rgba(255, 214, 231, 0.48), rgba(223, 245, 255, 0.5));
+      background: linear-gradient(135deg, rgba(255,214,231,0.48), rgba(223,245,255,0.5));
       display: grid;
       place-items: center;
     }
@@ -330,9 +273,9 @@
       place-items: center;
       text-align: center;
       color: #665a66;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 800;
-      line-height: 1.6;
+      line-height: 1.5;
       cursor: pointer;
     }
 
@@ -343,9 +286,7 @@
       font-weight: 500;
     }
 
-    .file-input {
-      display: none;
-    }
+    .file-input { display: none; }
 
     .mini-controls {
       margin-top: 8px;
@@ -355,7 +296,7 @@
 
     .range-row {
       display: grid;
-      grid-template-columns: 42px 1fr;
+      grid-template-columns: 38px 1fr;
       align-items: center;
       gap: 6px;
       font-size: 10px;
@@ -368,10 +309,57 @@
       accent-color: var(--pink-strong);
     }
 
-    .actions {
+    .preview-card {
+      position: sticky;
+      top: 82px;
+      overflow: visible;
+    }
+
+    .preview-wrap {
+      padding: 14px;
       display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 10px;
+      gap: 12px;
+    }
+
+    .canvas-shell {
+      position: relative;
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255,214,231,0.9), transparent 34%),
+        radial-gradient(circle at 90% 0%, rgba(223,245,255,0.9), transparent 36%),
+        rgba(255,255,255,0.92);
+      border: 1px solid rgba(234,221,231,0.9);
+      padding: 12px;
+      overflow: hidden;
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,0.7),
+        0 16px 36px rgba(89,50,80,0.10);
+    }
+
+    .canvas-shell::before {
+      content: "♡";
+      position: absolute;
+      top: 8px;
+      right: 16px;
+      font-family: "Yomogi", cursive;
+      font-size: 26px;
+      color: rgba(255,138,183,0.24);
+      transform: rotate(12deg);
+      pointer-events: none;
+    }
+
+    canvas {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 16px;
+      background: transparent;
+      box-shadow: 0 8px 24px rgba(89,50,80,0.07);
+    }
+
+    .preview-actions {
+      display: grid;
+      gap: 8px;
     }
 
     .btn {
@@ -386,91 +374,17 @@
       gap: 8px;
     }
 
-    .btn.secondary {
-      background: #fff;
-      border: 1px solid var(--line);
-      color: var(--ink);
-    }
-
-    .btn.primary {
-      color: #fff;
-      background: linear-gradient(135deg, #25222a, #5a4656);
-      box-shadow: 0 12px 22px rgba(37, 34, 42, 0.16);
-    }
-
     .btn.share {
       width: 100%;
       background: linear-gradient(135deg, #ff8ab7, #8adcf6);
       color: #fff;
       text-shadow: 0 1px 4px rgba(0,0,0,0.14);
-      box-shadow: 0 14px 26px rgba(255, 138, 183, 0.26);
+      box-shadow: 0 14px 26px rgba(255,138,183,0.26);
     }
 
     .btn:disabled {
       opacity: 0.58;
       cursor: wait;
-    }
-
-    .preview-card {
-      position: sticky;
-      top: 82px;
-    }
-
-    .preview-wrap {
-      padding: 18px;
-    }
-
-    .canvas-shell {
-      position: relative;
-      border-radius: 26px;
-      background:
-        radial-gradient(circle at 20% 10%, rgba(255, 214, 231, 0.9), transparent 34%),
-        radial-gradient(circle at 90% 0%, rgba(223, 245, 255, 0.9), transparent 36%),
-        rgba(255, 255, 255, 0.92);
-      border: 1px solid rgba(234, 221, 231, 0.9);
-      padding: 14px;
-      overflow: hidden;
-      box-shadow:
-        inset 0 0 0 1px rgba(255, 255, 255, 0.7),
-        0 16px 36px rgba(89, 50, 80, 0.1);
-    }
-
-    .canvas-shell::before {
-      content: "♡";
-      position: absolute;
-      top: 10px;
-      right: 18px;
-      font-family: "Yomogi", cursive;
-      font-size: 28px;
-      color: rgba(255, 138, 183, 0.28);
-      transform: rotate(12deg);
-      pointer-events: none;
-    }
-
-    .canvas-shell::after {
-      content: "8 visual board";
-      position: absolute;
-      left: 18px;
-      bottom: 10px;
-      font-family: "Yomogi", cursive;
-      font-size: 14px;
-      color: rgba(125, 116, 129, 0.34);
-      pointer-events: none;
-    }
-
-    canvas {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 18px;
-      background: #fff;
-      box-shadow: 0 10px 24px rgba(89, 50, 80, 0.08);
-    }
-
-    .preview-actions {
-      display: grid;
-      gap: 10px;
-      margin-top: 14px;
     }
 
     .download-link {
@@ -485,25 +399,8 @@
       padding: 8px;
     }
 
-    .privacy-note {
-      margin-top: 12px;
-      font-size: 11px;
-      color: var(--muted);
-      line-height: 1.7;
-      font-weight: 700;
-      text-align: center;
-    }
-
-    .note-box {
-      margin-top: 14px;
-      padding: 12px 14px;
-      border-radius: 18px;
-      background: rgba(255, 241, 184, 0.55);
-      border: 1px solid rgba(234, 221, 231, 0.9);
-      color: #6d5e58;
-      font-size: 12px;
-      line-height: 1.75;
-      font-weight: 700;
+    .bottom-bar {
+      display: none;
     }
 
     .toast {
@@ -513,7 +410,7 @@
       transform: translateX(-50%) translateY(20px);
       opacity: 0;
       pointer-events: none;
-      background: rgba(37, 34, 42, 0.92);
+      background: rgba(37,34,42,0.92);
       color: #fff;
       padding: 12px 16px;
       border-radius: 999px;
@@ -537,6 +434,7 @@
 
       .preview-card {
         position: static;
+        order: -1;
       }
     }
 
@@ -546,35 +444,56 @@
         flex-direction: column;
       }
 
-      .nav-links {
+      .nav-links { width: 100%; }
+      .page { padding: 14px 12px 92px; }
+      h1 { font-size: 46px; }
+      .hero { margin-bottom: 14px; }
+      .hero p { font-size: 12px; }
+      .editor-wrap, .preview-wrap { padding: 12px; gap: 12px; }
+      .upload-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+      .upload-card { padding: 8px; border-radius: 16px; }
+      .toolbar-group { gap: 6px; }
+      .chips {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .chips.effect-chips {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .chip {
+        min-width: 0;
         width: 100%;
+        padding: 10px 8px;
+        font-size: 12px;
       }
-
-      .page {
-        padding: 22px 12px 60px;
+      .actions-top {
+        display: none;
       }
-
-      h1 {
-        font-size: 48px;
+      .preview-actions {
+        display: none;
       }
-
-      .hero p {
-        font-size: 13px;
+      .bottom-bar {
+        display: grid;
+        grid-template-columns: 1fr 1.25fr;
+        gap: 8px;
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        z-index: 60;
       }
-
-      .section,
-      .card-head,
-      .preview-wrap {
-        padding: 14px;
+      .bottom-bar .mini-btn,
+      .bottom-bar .btn {
+        border-radius: 16px;
+        padding: 14px 12px;
       }
-
-      .upload-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+      .bottom-bar .mini-btn {
+        background: rgba(255,255,255,0.96);
+        color: var(--muted);
+        border: 1px solid var(--line);
+        box-shadow: 0 10px 20px rgba(89,50,80,0.08);
       }
-
-      .actions {
-        grid-template-columns: 1fr;
-      }
+      .canvas-shell { padding: 10px; }
     }
   </style>
 </head>
@@ -599,117 +518,44 @@
     <section class="hero">
       <div class="eyebrow">official order photo board</div>
       <h1>8 VISUAL BOARD</h1>
-      <p>
-        8人の写真を公式順に並べて、1枚の保存画像に。<br>
-        つなぎ目をふわっとぼかして、タグ画像っぽい空気感でまとめられます。
-      </p>
+      <p>8人の写真を並べて、1枚にまとめられます。</p>
     </section>
 
     <div class="main-grid">
       <section class="card">
-        <div class="card-head">
-          <div class="card-title">写真をアップロード</div>
-          <div class="card-note">
-            画像はこの端末内で処理されます。保存画像では、画像同士のすき間がないシームレスなレイアウトになります。
-          </div>
-        </div>
+        <div class="editor-wrap">
+          <div class="toolbar">
+            <div class="toolbar-group">
+              <div class="toolbar-label">デザイン</div>
+              <div class="chips" id="themeChips">
+                <button type="button" class="chip is-active" data-theme="soda">ソーダ</button>
+                <button type="button" class="chip" data-theme="berry">ベリー</button>
+                <button type="button" class="chip" data-theme="classical">クラシカル</button>
+              </div>
+            </div>
 
-        <div class="section">
-          <div class="section-title">
-            レイアウト
-            <span class="tiny">4×2 / 2×4 を切り替え</span>
-          </div>
-          <div class="chips" id="layoutChips">
-            <button type="button" class="chip is-active" data-layout="4x2">4×2</button>
-            <button type="button" class="chip" data-layout="2x4">2×4</button>
-          </div>
-        </div>
+            <div class="toolbar-group">
+              <div class="toolbar-label">エフェクト</div>
+              <div class="chips effect-chips" id="effectChips">
+                <button type="button" class="chip" data-effect="none">なし</button>
+                <button type="button" class="chip is-active" data-effect="soft">ふんわり</button>
+                <button type="button" class="chip" data-effect="clear">透明感</button>
+                <button type="button" class="chip" data-effect="sparkle">きらきら</button>
+                <button type="button" class="chip" data-effect="film">フィルム</button>
+                <button type="button" class="chip" data-effect="mode">モード</button>
+              </div>
+            </div>
 
-        <div class="section">
-          <div class="toggle-row">
-            <label>
-              <input type="checkbox" id="showNames">
-              手書きネームを表示
-            </label>
-            <span class="tiny">PNG素材を使用</span>
-          </div>
-
-          <div class="toggle-row">
-            <label>
-              <input type="checkbox" id="blurSeams" checked>
-              つなぎ目をぼかす
-            </label>
-            <span class="tiny">タグ画像っぽく</span>
-          </div>
-
-          <div class="section-title" style="margin-top: 14px;">
-            ネームカラー
-            <span class="tiny">白 / グレー</span>
-          </div>
-
-          <div class="chips" id="nameColorChips">
-            <button type="button" class="chip is-active" data-name-color="w">白</button>
-            <button type="button" class="chip" data-name-color="g">グレー</button>
-          </div>
-
-          <div class="section-title" style="margin-top: 14px;">
-            エフェクト
-            <span class="tiny">全体の雰囲気を調整</span>
-          </div>
-
-          <div class="chips" id="effectChips">
-            <button type="button" class="chip" data-effect="none">なし</button>
-            <button type="button" class="chip is-active" data-effect="soft">ふんわり</button>
-            <button type="button" class="chip" data-effect="clear">透明感</button>
-            <button type="button" class="chip" data-effect="sparkle">きらきら</button>
-            <button type="button" class="chip" data-effect="film">フィルム</button>
-            <button type="button" class="chip" data-effect="mode">モード</button>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">
-            背景
-            <span class="tiny">未設定枠にも反映</span>
-          </div>
-          <div class="chips" id="bgChips">
-            <button type="button" class="chip is-active" data-bg="milk">白</button>
-            <button type="button" class="chip" data-bg="pink">ピンク</button>
-            <button type="button" class="chip" data-bg="gray">グレー</button>
-            <button type="button" class="chip" data-bg="black">黒</button>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">
-            公式順にアップロード
-            <span class="tiny">KAIRYU → EIKI</span>
+            <div class="actions-top">
+              <button type="button" class="mini-btn" id="resetBtn">↺ リセット</button>
+            </div>
           </div>
 
           <div class="upload-grid" id="uploadGrid"></div>
-
-          <div class="note-box">
-            写真はアップロードのみ対応です。<br>
-            入れたあとに「拡大」「左右」「上下」を調整できます。
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="actions">
-            <button type="button" class="btn secondary" id="resetBtn">↺ 全体をリセット</button>
-            <button type="button" class="btn primary" id="makeBtn">✨ 保存画像を作成</button>
-          </div>
         </div>
       </section>
 
       <aside class="card preview-card" id="previewArea">
-        <div class="card-head">
-          <div class="card-title">完成イメージ</div>
-          <div class="card-note">
-            スマホでは共有メニューから画像保存・投稿に進めます。
-          </div>
-        </div>
-
         <div class="preview-wrap">
           <div class="canvas-shell">
             <canvas id="boardCanvas"></canvas>
@@ -717,38 +563,34 @@
 
           <div class="preview-actions">
             <button type="button" class="btn share" id="shareBtn">画像をシェア / 保存</button>
-            <button type="button" class="download-link" id="downloadBtn">共有できない場合はこちらから保存</button>
-          </div>
-
-          <div class="privacy-note">
-            アップロードした写真はサーバーに送信されません。<br>
-            このページ上で1枚の画像に変換します。
+            <button type="button" class="download-link" id="downloadBtn">保存できないときはこちら</button>
           </div>
         </div>
       </aside>
     </div>
   </main>
 
+  <div class="bottom-bar">
+    <button type="button" class="mini-btn" id="mobileResetBtn">↺ リセット</button>
+    <button type="button" class="btn share" id="mobileShareBtn">画像をシェア / 保存</button>
+  </div>
+
   <div class="toast" id="toast"></div>
 
   <script>
     const MEMBERS = [
-      { key: "kairyu", label: "KAIRYU", files: { w: "./assets/kairyu_w.png", g: "./assets/kairyu_g.png" } },
-      { key: "naoya",  label: "NAOYA",  files: { w: "./assets/naoya_w.png",  g: "./assets/naoya_g.png" } },
-      { key: "ran",    label: "RAN",    files: { w: "./assets/ran_w.png",    g: "./assets/ran_g.png" } },
-      { key: "seito",  label: "SEITO",  files: { w: "./assets/seito_w.png",  g: "./assets/seito_g.png" } },
-      { key: "ryuki",  label: "RYUKI",  files: { w: "./assets/ryuki_w.png",  g: "./assets/ryuki_g.png" } },
-      { key: "takuto", label: "TAKUTO", files: { w: "./assets/takuto_w.png", g: "./assets/takuto_g.png" } },
-      { key: "hayato", label: "HAYATO", files: { w: "./assets/hayato_w.png", g: "./assets/hayato_g.png" } },
-      { key: "eiki",   label: "EIKI",   files: { w: "./assets/eiki_w.png",   g: "./assets/eiki_g.png" } }
+      { label: "KAIRYU" },
+      { label: "NAOYA" },
+      { label: "RAN" },
+      { label: "SEITO" },
+      { label: "RYUKI" },
+      { label: "TAKUTO" },
+      { label: "HAYATO" },
+      { label: "EIKI" }
     ];
 
     const state = {
-      layout: "4x2",
-      bg: "milk",
-      showNames: false,
-      blurSeams: true,
-      nameColor: "w",
+      theme: "soda",
       effect: "soft",
       items: MEMBERS.map(() => ({
         img: null,
@@ -759,81 +601,68 @@
       }))
     };
 
-    const nameAssets = {};
     const uploadGrid = document.getElementById("uploadGrid");
     const canvas = document.getElementById("boardCanvas");
     const ctx = canvas.getContext("2d");
     const toast = document.getElementById("toast");
 
-    const bgMap = {
-      milk: { board: "#fffafc" },
-      pink: { board: "#fff2f8" },
-      gray: { board: "#f3f3f6" },
-      black: { board: "#18161c" }
-    };
+    function roundRectPath(x, y, w, h, r) {
+      const radius = Math.min(r, w / 2, h / 2);
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.arcTo(x + w, y, x + w, y + h, radius);
+      ctx.arcTo(x + w, y + h, x, y + h, radius);
+      ctx.arcTo(x, y + h, x, y, radius);
+      ctx.arcTo(x, y, x + w, y, radius);
+      ctx.closePath();
+    }
 
     function showToast(message) {
       toast.textContent = message;
       toast.classList.add("show");
       clearTimeout(showToast.timer);
-      showToast.timer = setTimeout(() => {
-        toast.classList.remove("show");
-      }, 2400);
+      showToast.timer = setTimeout(() => toast.classList.remove("show"), 2400);
     }
 
-    function loadImage(src) {
-      return new Promise(resolve => {
-        const img = new Image();
-
-        img.onload = () => resolve(img);
-
-        img.onerror = () => {
-          console.warn("画像を読み込めませんでした:", src);
-          resolve(null);
-        };
-
-        img.src = src;
-      });
-    }
-
-    async function loadNameAssets() {
-      let missingCount = 0;
-
-      for (const member of MEMBERS) {
-        const white = await loadImage(member.files.w);
-        const gray = await loadImage(member.files.g);
-
-        if (!white) missingCount++;
-        if (!gray) missingCount++;
-
-        nameAssets[member.key] = {
-          w: white,
-          g: gray
-        };
-      }
-
-      if (missingCount === 0) {
-        console.log("ネームアセット読み込み完了");
-      } else {
-        console.warn("一部のネームアセットが読み込めませんでした。ファイル名と置き場所を確認してください。");
-      }
-
-      drawBoard();
-    }
-
-    function getLayoutInfo() {
-      if (state.layout === "2x4") {
+    function getThemeConfig() {
+      if (state.theme === "berry") {
         return {
-          cols: 2,
-          rows: 4,
-          width: 1200
+          pad: 30,
+          radius: 28,
+          shell1: "#ffd9eb",
+          shell2: "#fff1f7",
+          boardFill: "#fffafd",
+          accent1: "#ff85b8",
+          accent2: "#ffbfd8",
+          accent3: "#ffd3e6",
+          line: "#ffd7e8"
+        };
+      }
+
+      if (state.theme === "classical") {
+        return {
+          pad: 30,
+          radius: 20,
+          shell1: "#efe6da",
+          shell2: "#faf6ef",
+          boardFill: "#fffcf8",
+          accent1: "#b99152",
+          accent2: "#e9dcc8",
+          accent3: "#efe7db",
+          line: "#d7c6ae"
         };
       }
 
       return {
-        cols: 4,
-        rows: 2,
-        width: 1600
+        pad: 30,
+        radius: 28,
+        shell1: "#dff5ff",
+        shell2: "#f2fbff",
+        boardFill: "#fbfeff",
+        accent1: "#7fd5f7",
+        accent2: "#ffd2e8",
+        accent3: "#d9f2ff",
+        line: "#d8ecf7"
       };
     }
 
@@ -842,16 +671,16 @@
 
       MEMBERS.forEach((member, index) => {
         const item = state.items[index];
+        const hasImage = !!item.url;
 
         const card = document.createElement("div");
         card.className = "upload-card";
-
         card.innerHTML = `
           <div class="member-label">${member.label}</div>
 
           <div class="portrait-box">
             ${
-              item.url
+              hasImage
                 ? `<img src="${item.url}" alt="${member.label}" data-upload-img="${index}" style="transform: translate(${item.x / 3}%, ${item.y / 3}%) scale(${item.scale});">`
                 : ""
             }
@@ -872,24 +701,25 @@
             >
           </div>
 
-          <div class="mini-controls">
-            <label class="range-row">
-              <span>拡大</span>
-              <input type="range" min="1" max="2.2" step="0.01" value="${item.scale}" data-control="scale" data-index="${index}">
-            </label>
-
-            <label class="range-row">
-              <span>左右</span>
-              <input type="range" min="-80" max="80" step="1" value="${item.x}" data-control="x" data-index="${index}">
-            </label>
-
-            <label class="range-row">
-              <span>上下</span>
-              <input type="range" min="-80" max="80" step="1" value="${item.y}" data-control="y" data-index="${index}">
-            </label>
-          </div>
+          ${
+            hasImage
+              ? `<div class="mini-controls">
+                  <label class="range-row">
+                    <span>拡大</span>
+                    <input type="range" min="1" max="2.2" step="0.01" value="${item.scale}" data-control="scale" data-index="${index}">
+                  </label>
+                  <label class="range-row">
+                    <span>左右</span>
+                    <input type="range" min="-80" max="80" step="1" value="${item.x}" data-control="x" data-index="${index}">
+                  </label>
+                  <label class="range-row">
+                    <span>上下</span>
+                    <input type="range" min="-80" max="80" step="1" value="${item.y}" data-control="y" data-index="${index}">
+                  </label>
+                </div>`
+              : ""
+          }
         `;
-
         uploadGrid.appendChild(card);
       });
 
@@ -911,9 +741,7 @@
       const img = new Image();
 
       img.onload = () => {
-        if (state.items[index].url) {
-          URL.revokeObjectURL(state.items[index].url);
-        }
+        if (state.items[index].url) URL.revokeObjectURL(state.items[index].url);
 
         state.items[index] = {
           img,
@@ -962,15 +790,13 @@
       }
     }
 
-    function drawCoverImage(ctx, img, dx, dy, dw, dh, item) {
+    function drawCoverImage(img, dx, dy, dw, dh, item) {
       const baseScale = Math.max(dw / img.naturalWidth, dh / img.naturalHeight);
       const finalScale = baseScale * item.scale;
       const sw = img.naturalWidth * finalScale;
       const sh = img.naturalHeight * finalScale;
-
       const offsetX = (item.x / 100) * (dw / 2);
       const offsetY = (item.y / 100) * (dh / 2);
-
       const sx = dx + (dw - sw) / 2 + offsetX;
       const sy = dy + (dh - sh) / 2 + offsetY;
 
@@ -988,153 +814,154 @@
       ctx.restore();
     }
 
-    function drawPlaceholder(ctx, x, y, w, h) {
-      const colors = {
-        milk: ["#fff7fb", "#f8fbff"],
-        pink: ["#fff1f8", "#ffe4ef"],
-        gray: ["#f5f4f7", "#e9e8ee"],
-        black: ["#1f1c24", "#302b36"]
-      };
-
-      const selected = colors[state.bg] || colors.milk;
-
+    function drawPlaceholder(x, y, w, h) {
+      const theme = getThemeConfig();
       const grad = ctx.createLinearGradient(x, y, x + w, y + h);
-      grad.addColorStop(0, selected[0]);
-      grad.addColorStop(1, selected[1]);
-
+      grad.addColorStop(0, theme.accent3);
+      grad.addColorStop(1, "#ffffff");
       ctx.fillStyle = grad;
       ctx.fillRect(x, y, w, h);
 
-      if (state.effect !== "none") {
+      ctx.save();
+      ctx.globalAlpha = 0.35;
+      ctx.fillStyle = theme.accent2;
+      ctx.beginPath();
+      ctx.arc(x + w * 0.22, y + h * 0.18, w * 0.16, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(x + w * 0.76, y + h * 0.76, w * 0.12, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawThemeFrame(cw, ch, boardX, boardY, boardW, boardH, radius) {
+      const theme = getThemeConfig();
+
+      const shellGrad = ctx.createLinearGradient(0, 0, cw, ch);
+      shellGrad.addColorStop(0, theme.shell1);
+      shellGrad.addColorStop(0.55, theme.shell2);
+      shellGrad.addColorStop(1, "#ffffff");
+      roundRectPath(0, 0, cw, ch, radius + 10);
+      ctx.fillStyle = shellGrad;
+      ctx.fill();
+
+      if (state.theme === "soda") {
         ctx.save();
+        ctx.globalAlpha = 0.42;
+        ctx.fillStyle = "#ffffff";
+        [[0.14,0.18,0.07],[0.82,0.22,0.05],[0.88,0.78,0.08],[0.18,0.86,0.04]].forEach(([px, py, pr]) => {
+          ctx.beginPath();
+          ctx.arc(cw * px, ch * py, cw * pr, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        ctx.restore();
+      }
 
-        const glow = ctx.createRadialGradient(
-          x + w * 0.5,
-          y + h * 0.42,
-          w * 0.05,
-          x + w * 0.5,
-          y + h * 0.42,
-          w * 0.58
-        );
+      if (state.theme === "berry") {
+        ctx.save();
+        ctx.globalAlpha = 0.28;
+        ctx.fillStyle = theme.accent2;
+        [[0.12,0.2,18],[0.88,0.16,14],[0.18,0.88,12],[0.84,0.82,16]].forEach(([px, py, r]) => {
+          ctx.beginPath();
+          ctx.arc(cw * px, ch * py, r, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        ctx.restore();
+      }
 
-        glow.addColorStop(0, state.bg === "black" ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.38)");
-        glow.addColorStop(1, "rgba(255,255,255,0)");
+      if (state.theme === "classical") {
+        ctx.save();
+        ctx.globalAlpha = 0.08;
+        ctx.strokeStyle = "#7b6244";
+        ctx.lineWidth = 1;
+        for (let y = 14; y < ch; y += 16) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(cw, y);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
 
-        ctx.fillStyle = glow;
-        ctx.fillRect(x, y, w, h);
+      ctx.save();
+      roundRectPath(boardX, boardY, boardW, boardH, radius);
+      ctx.clip();
+      ctx.fillStyle = theme.boardFill;
+      ctx.fillRect(boardX, boardY, boardW, boardH);
+      ctx.restore();
 
+      ctx.save();
+      ctx.lineWidth = state.theme === "classical" ? 3 : 2;
+      ctx.strokeStyle = state.theme === "classical" ? theme.accent1 : theme.line;
+      roundRectPath(boardX - 8, boardY - 8, boardW + 16, boardH + 16, radius + 8);
+      ctx.stroke();
+      ctx.restore();
+
+      if (state.theme === "classical") {
+        ctx.save();
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = "rgba(185,145,82,0.42)";
+        roundRectPath(boardX - 14, boardY - 14, boardW + 28, boardH + 28, radius + 12);
+        ctx.stroke();
         ctx.restore();
       }
     }
 
-    function drawNameFallback(ctx, label, x, y, w, h) {
-      if (!state.showNames) return;
-
-      ctx.save();
-
-      const fontSize = Math.max(34, Math.round(w * 0.13));
-      const labelY = y + h - Math.round(h * 0.08);
-
-      ctx.textAlign = "center";
-      ctx.textBaseline = "alphabetic";
-      ctx.font = `700 ${fontSize}px "Yomogi", "M PLUS Rounded 1c", sans-serif`;
-      ctx.shadowColor = "rgba(0,0,0,0.24)";
-      ctx.shadowBlur = 6;
-      ctx.shadowOffsetY = 2;
-      ctx.fillStyle = state.nameColor === "g" ? "#9e9e9e" : "#ffffff";
-      ctx.fillText(label, x + w / 2, labelY, w * 0.82);
-
-      ctx.restore();
-    }
-
-    function drawNameImage(ctx, member, x, y, w, h) {
-      if (!state.showNames) return;
-
-      const asset = nameAssets[member.key]?.[state.nameColor];
-
-      if (!asset) {
-        drawNameFallback(ctx, member.label, x, y, w, h);
-        return;
-      }
-
-      const ratio = asset.naturalWidth / asset.naturalHeight;
-      const maxW = w * 0.78;
-      const maxH = h * 0.15;
-
-      let drawW = maxW;
-      let drawH = drawW / ratio;
-
-      if (drawH > maxH) {
-        drawH = maxH;
-        drawW = drawH * ratio;
-      }
-
-      const drawX = x + (w - drawW) / 2;
-      const drawY = y + h - drawH - h * 0.035;
-
-      ctx.save();
-      ctx.shadowColor = "rgba(0,0,0,0.16)";
-      ctx.shadowBlur = state.nameColor === "w" ? 6 : 3;
-      ctx.shadowOffsetY = 2;
-      ctx.drawImage(asset, drawX, drawY, drawW, drawH);
-      ctx.restore();
-    }
-
-    function blurSeams(width, height, cols, rows, tileW, tileH) {
-      if (!state.blurSeams) return;
-
+    function blurSeams(boardX, boardY, boardW, boardH, cols, rows, tileW, tileH) {
       const band = Math.max(24, Math.round(tileW * 0.072));
 
       ctx.save();
+      ctx.beginPath();
+      ctx.rect(boardX, boardY, boardW, boardH);
+      ctx.clip();
       ctx.filter = "blur(16px)";
       ctx.globalAlpha = 0.68;
 
       for (let c = 1; c < cols; c++) {
-        const x = c * tileW;
-        ctx.drawImage(canvas, x - band, 0, band * 2, height, x - band, 0, band * 2, height);
+        const x = boardX + c * tileW;
+        ctx.drawImage(canvas, x - band, boardY, band * 2, boardH, x - band, boardY, band * 2, boardH);
       }
 
       for (let r = 1; r < rows; r++) {
-        const y = r * tileH;
-        ctx.drawImage(canvas, 0, y - band, width, band * 2, 0, y - band, width, band * 2);
+        const y = boardY + r * tileH;
+        ctx.drawImage(canvas, boardX, y - band, boardW, band * 2, boardX, y - band, boardW, band * 2);
       }
-
       ctx.restore();
 
       ctx.save();
+      ctx.beginPath();
+      ctx.rect(boardX, boardY, boardW, boardH);
+      ctx.clip();
       ctx.globalAlpha = 0.08;
-      ctx.fillStyle = "#ffffff";
 
       for (let c = 1; c < cols; c++) {
-        const x = c * tileW;
+        const x = boardX + c * tileW;
         const grad = ctx.createLinearGradient(x - band, 0, x + band, 0);
         grad.addColorStop(0, "rgba(255,255,255,0)");
         grad.addColorStop(0.5, "rgba(255,255,255,0.38)");
         grad.addColorStop(1, "rgba(255,255,255,0)");
         ctx.fillStyle = grad;
-        ctx.fillRect(x - band, 0, band * 2, height);
+        ctx.fillRect(x - band, boardY, band * 2, boardH);
       }
 
       for (let r = 1; r < rows; r++) {
-        const y = r * tileH;
+        const y = boardY + r * tileH;
         const grad = ctx.createLinearGradient(0, y - band, 0, y + band);
         grad.addColorStop(0, "rgba(255,255,255,0)");
         grad.addColorStop(0.5, "rgba(255,255,255,0.34)");
         grad.addColorStop(1, "rgba(255,255,255,0)");
         ctx.fillStyle = grad;
-        ctx.fillRect(0, y - band, width, band * 2);
+        ctx.fillRect(boardX, y - band, boardW, band * 2);
       }
-
       ctx.restore();
     }
 
-    function drawStar(ctx, x, y, r, alpha) {
+    function drawStar(x, y, r, alpha) {
       ctx.save();
       ctx.globalAlpha = alpha;
       ctx.translate(x, y);
       ctx.rotate(Math.PI / 4);
       ctx.fillStyle = "#ffffff";
-
       ctx.beginPath();
       ctx.moveTo(0, -r);
       ctx.lineTo(r * 0.22, -r * 0.22);
@@ -1146,81 +973,67 @@
       ctx.lineTo(-r * 0.22, -r * 0.22);
       ctx.closePath();
       ctx.fill();
-
       ctx.restore();
     }
 
-    function applyEffectOverlay(width, height) {
+    function applyEffectOverlay(boardX, boardY, boardW, boardH) {
       if (state.effect === "none") return;
 
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(boardX, boardY, boardW, boardH);
+      ctx.clip();
+
       if (state.effect === "soft") {
-        const softLight = ctx.createRadialGradient(width * 0.5, height * 0.38, width * 0.05, width * 0.5, height * 0.38, width * 0.78);
+        const softLight = ctx.createRadialGradient(boardX + boardW * 0.5, boardY + boardH * 0.38, boardW * 0.05, boardX + boardW * 0.5, boardY + boardH * 0.38, boardW * 0.78);
         softLight.addColorStop(0, "rgba(255,255,255,0.20)");
         softLight.addColorStop(0.48, "rgba(255,226,242,0.14)");
         softLight.addColorStop(1, "rgba(255,255,255,0)");
-
-        ctx.save();
         ctx.fillStyle = softLight;
-        ctx.fillRect(0, 0, width, height);
-        ctx.restore();
+        ctx.fillRect(boardX, boardY, boardW, boardH);
 
-        const tint = ctx.createLinearGradient(0, 0, width, height);
+        const tint = ctx.createLinearGradient(boardX, boardY, boardX + boardW, boardY + boardH);
         tint.addColorStop(0, "rgba(255,205,230,0.16)");
         tint.addColorStop(0.5, "rgba(255,255,255,0.04)");
         tint.addColorStop(1, "rgba(205,242,255,0.13)");
-
-        ctx.save();
         ctx.fillStyle = tint;
-        ctx.fillRect(0, 0, width, height);
-        ctx.restore();
+        ctx.fillRect(boardX, boardY, boardW, boardH);
       }
 
       if (state.effect === "clear") {
-        const veil = ctx.createLinearGradient(0, 0, width, height);
+        const veil = ctx.createLinearGradient(boardX, boardY, boardX + boardW, boardY + boardH);
         veil.addColorStop(0, "rgba(220,248,255,0.25)");
         veil.addColorStop(0.45, "rgba(255,255,255,0.14)");
         veil.addColorStop(1, "rgba(198,229,255,0.22)");
-
-        ctx.save();
         ctx.fillStyle = veil;
-        ctx.fillRect(0, 0, width, height);
-        ctx.restore();
+        ctx.fillRect(boardX, boardY, boardW, boardH);
 
-        const light = ctx.createRadialGradient(width * 0.52, height * 0.34, width * 0.05, width * 0.52, height * 0.34, width * 0.72);
+        const light = ctx.createRadialGradient(boardX + boardW * 0.52, boardY + boardH * 0.34, boardW * 0.05, boardX + boardW * 0.52, boardY + boardH * 0.34, boardW * 0.72);
         light.addColorStop(0, "rgba(255,255,255,0.24)");
         light.addColorStop(1, "rgba(255,255,255,0)");
-
-        ctx.save();
         ctx.fillStyle = light;
-        ctx.fillRect(0, 0, width, height);
-        ctx.restore();
+        ctx.fillRect(boardX, boardY, boardW, boardH);
       }
 
       if (state.effect === "sparkle") {
-        const tint = ctx.createLinearGradient(0, 0, width, height);
+        const tint = ctx.createLinearGradient(boardX, boardY, boardX + boardW, boardY + boardH);
         tint.addColorStop(0, "rgba(255,220,240,0.18)");
         tint.addColorStop(0.55, "rgba(255,255,255,0.07)");
         tint.addColorStop(1, "rgba(210,244,255,0.14)");
-
-        ctx.save();
         ctx.fillStyle = tint;
-        ctx.fillRect(0, 0, width, height);
-        ctx.restore();
+        ctx.fillRect(boardX, boardY, boardW, boardH);
 
-        ctx.save();
         ctx.globalCompositeOperation = "screen";
-
         for (let i = 0; i < 38; i++) {
           const px = Math.abs(Math.sin(i * 12.9898) * 43758.5453 % 1);
           const py = Math.abs(Math.sin(i * 78.233) * 12345.6789 % 1);
-          const x = px * width;
-          const y = py * height;
+          const x = boardX + px * boardW;
+          const y = boardY + py * boardH;
           const r = 2.5 + (i % 4);
           const alpha = 0.18 + (i % 5) * 0.032;
 
-          if (i % 4 === 0) {
-            drawStar(ctx, x, y, r * 2.2, alpha + 0.06);
-          } else {
+          if (i % 4 === 0) drawStar(x, y, r * 2.2, alpha + 0.06);
+          else {
             ctx.globalAlpha = alpha;
             ctx.fillStyle = "#ffffff";
             ctx.beginPath();
@@ -1228,72 +1041,66 @@
             ctx.fill();
           }
         }
-
-        ctx.restore();
       }
 
       if (state.effect === "film") {
-        ctx.save();
         ctx.globalAlpha = 0.20;
         ctx.fillStyle = "#8b6f58";
-        ctx.fillRect(0, 0, width, height);
-        ctx.restore();
+        ctx.fillRect(boardX, boardY, boardW, boardH);
 
-        ctx.save();
         ctx.globalAlpha = 0.16;
-
         for (let i = 0; i < 1300; i++) {
-          const x = Math.abs(Math.sin(i * 91.17) * 10000 % 1) * width;
-          const y = Math.abs(Math.sin(i * 17.31) * 10000 % 1) * height;
+          const x = boardX + Math.abs(Math.sin(i * 91.17) * 10000 % 1) * boardW;
+          const y = boardY + Math.abs(Math.sin(i * 17.31) * 10000 % 1) * boardH;
           const shade = i % 2 === 0 ? 255 : 40;
           ctx.fillStyle = `rgba(${shade},${shade},${shade},0.25)`;
           ctx.fillRect(x, y, 1.2, 1.2);
         }
-
-        ctx.restore();
       }
 
       if (state.effect === "mode") {
-        const vignette = ctx.createRadialGradient(width * 0.5, height * 0.42, width * 0.15, width * 0.5, height * 0.42, width * 0.82);
+        const vignette = ctx.createRadialGradient(boardX + boardW * 0.5, boardY + boardH * 0.42, boardW * 0.15, boardX + boardW * 0.5, boardY + boardH * 0.42, boardW * 0.82);
         vignette.addColorStop(0, "rgba(0,0,0,0)");
         vignette.addColorStop(0.64, "rgba(0,0,0,0.10)");
         vignette.addColorStop(1, "rgba(0,0,0,0.34)");
-
-        ctx.save();
         ctx.fillStyle = vignette;
-        ctx.fillRect(0, 0, width, height);
-        ctx.restore();
+        ctx.fillRect(boardX, boardY, boardW, boardH);
 
-        ctx.save();
         ctx.globalAlpha = 0.15;
         ctx.fillStyle = "#0f0d14";
-        ctx.fillRect(0, 0, width, height);
-        ctx.restore();
+        ctx.fillRect(boardX, boardY, boardW, boardH);
       }
+
+      ctx.restore();
     }
 
     function drawBoard() {
-      const layout = getLayoutInfo();
-      const cols = layout.cols;
-      const rows = layout.rows;
-      const width = layout.width;
-      const tileW = Math.floor(width / cols);
+      const cols = 4;
+      const rows = 2;
+      const innerWidth = 1600;
+      const tileW = Math.floor(innerWidth / cols);
       const tileH = Math.round(tileW * 4 / 3);
-      const height = tileH * rows;
+      const innerHeight = tileH * rows;
+      const theme = getThemeConfig();
 
-      canvas.width = width;
-      canvas.height = height;
+      const boardX = theme.pad;
+      const boardY = theme.pad;
+      const boardW = innerWidth;
+      const boardH = innerHeight;
+      const cw = innerWidth + theme.pad * 2;
+      const ch = innerHeight + theme.pad * 2;
 
-      ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = bgMap[state.bg].board;
-      ctx.fillRect(0, 0, width, height);
+      canvas.width = cw;
+      canvas.height = ch;
+
+      ctx.clearRect(0, 0, cw, ch);
+      drawThemeFrame(cw, ch, boardX, boardY, boardW, boardH, theme.radius);
 
       for (let i = 0; i < MEMBERS.length; i++) {
-        const member = MEMBERS[i];
         const col = i % cols;
         const row = Math.floor(i / cols);
-        const x = col * tileW;
-        const y = row * tileH;
+        const x = boardX + col * tileW;
+        const y = boardY + row * tileH;
         const item = state.items[i];
 
         ctx.save();
@@ -1301,32 +1108,18 @@
         ctx.rect(x, y, tileW, tileH);
         ctx.clip();
 
-        if (item.img) {
-          drawCoverImage(ctx, item.img, x, y, tileW, tileH, item);
-        } else {
-          drawPlaceholder(ctx, x, y, tileW, tileH);
-        }
+        if (item.img) drawCoverImage(item.img, x, y, tileW, tileH, item);
+        else drawPlaceholder(x, y, tileW, tileH);
 
         ctx.restore();
       }
 
-      blurSeams(width, height, cols, rows, tileW, tileH);
-      applyEffectOverlay(width, height);
-
-      for (let i = 0; i < MEMBERS.length; i++) {
-        const member = MEMBERS[i];
-        const col = i % cols;
-        const row = Math.floor(i / cols);
-        const x = col * tileW;
-        const y = row * tileH;
-
-        drawNameImage(ctx, member, x, y, tileW, tileH);
-      }
+      blurSeams(boardX, boardY, boardW, boardH, cols, rows, tileW, tileH);
+      applyEffectOverlay(boardX, boardY, boardW, boardH);
     }
 
     function setActiveChip(groupSelector, datasetKey, value) {
       const attrName = datasetKey.replace(/[A-Z]/g, letter => "-" + letter.toLowerCase());
-
       document.querySelectorAll(`${groupSelector} [data-${attrName}]`).forEach(btn => {
         btn.classList.toggle("is-active", btn.dataset[datasetKey] === value);
       });
@@ -1337,11 +1130,7 @@
         if (item.url) URL.revokeObjectURL(item.url);
       });
 
-      state.layout = "4x2";
-      state.bg = "milk";
-      state.showNames = false;
-      state.blurSeams = true;
-      state.nameColor = "w";
+      state.theme = "soda";
       state.effect = "soft";
       state.items = MEMBERS.map(() => ({
         img: null,
@@ -1351,13 +1140,8 @@
         y: 0
       }));
 
-      document.getElementById("showNames").checked = false;
-      document.getElementById("blurSeams").checked = true;
-      setActiveChip("#layoutChips", "layout", "4x2");
-      setActiveChip("#bgChips", "bg", "milk");
-      setActiveChip("#nameColorChips", "nameColor", "w");
+      setActiveChip("#themeChips", "theme", "soda");
       setActiveChip("#effectChips", "effect", "soft");
-
       renderUploadGrid();
       drawBoard();
       showToast("リセットしました");
@@ -1365,14 +1149,10 @@
 
     function canvasToBlob() {
       drawBoard();
-
       return new Promise((resolve, reject) => {
         canvas.toBlob(blob => {
-          if (blob) {
-            resolve(blob);
-          } else {
-            reject(new Error("画像の作成に失敗しました"));
-          }
+          if (blob) resolve(blob);
+          else reject(new Error("画像の作成に失敗しました"));
         }, "image/png", 1);
       });
     }
@@ -1385,16 +1165,17 @@
       document.body.appendChild(a);
       a.click();
       a.remove();
-
-      setTimeout(() => {
-        URL.revokeObjectURL(url);
-      }, 1200);
+      setTimeout(() => URL.revokeObjectURL(url), 1200);
     }
 
     async function shareOrSave() {
-      const shareBtn = document.getElementById("shareBtn");
-      shareBtn.disabled = true;
-      shareBtn.textContent = "画像を作成中…";
+      const shareButtons = [document.getElementById("shareBtn"), document.getElementById("mobileShareBtn")];
+      shareButtons.forEach(btn => {
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = "画像を作成中…";
+        }
+      });
 
       try {
         const blob = await canvasToBlob();
@@ -1412,12 +1193,14 @@
           showToast("画像を保存しました");
         }
       } catch (error) {
-        if (error.name !== "AbortError") {
-          showToast("画像の作成に失敗しました");
-        }
+        if (error.name !== "AbortError") showToast("画像の作成に失敗しました");
       } finally {
-        shareBtn.disabled = false;
-        shareBtn.textContent = "画像をシェア / 保存";
+        shareButtons.forEach(btn => {
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = "画像をシェア / 保存";
+          }
+        });
       }
     }
 
@@ -1431,26 +1214,10 @@
       }
     }
 
-    document.querySelectorAll("[data-layout]").forEach(btn => {
+    document.querySelectorAll("[data-theme]").forEach(btn => {
       btn.addEventListener("click", () => {
-        state.layout = btn.dataset.layout;
-        setActiveChip("#layoutChips", "layout", state.layout);
-        drawBoard();
-      });
-    });
-
-    document.querySelectorAll("[data-bg]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        state.bg = btn.dataset.bg;
-        setActiveChip("#bgChips", "bg", state.bg);
-        drawBoard();
-      });
-    });
-
-    document.querySelectorAll("[data-name-color]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        state.nameColor = btn.dataset.nameColor;
-        setActiveChip("#nameColorChips", "nameColor", state.nameColor);
+        state.theme = btn.dataset.theme;
+        setActiveChip("#themeChips", "theme", state.theme);
         drawBoard();
       });
     });
@@ -1463,33 +1230,14 @@
       });
     });
 
-    document.getElementById("showNames").addEventListener("change", event => {
-      state.showNames = event.target.checked;
-      drawBoard();
-    });
-
-    document.getElementById("blurSeams").addEventListener("change", event => {
-      state.blurSeams = event.target.checked;
-      drawBoard();
-    });
-
     document.getElementById("resetBtn").addEventListener("click", resetAll);
-
-    document.getElementById("makeBtn").addEventListener("click", () => {
-      drawBoard();
-      document.getElementById("previewArea").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-      showToast("完成イメージを作成しました");
-    });
-
+    document.getElementById("mobileResetBtn").addEventListener("click", resetAll);
     document.getElementById("shareBtn").addEventListener("click", shareOrSave);
+    document.getElementById("mobileShareBtn").addEventListener("click", shareOrSave);
     document.getElementById("downloadBtn").addEventListener("click", downloadOnly);
 
     renderUploadGrid();
     drawBoard();
-    loadNameAssets();
   </script>
 </body>
 </html>
