@@ -14,7 +14,7 @@
   <style>
     :root {
       --bg: #fff8fb;
-      --panel: rgba(255, 255, 255, 0.88);
+      --panel: rgba(255, 255, 255, 0.9);
       --ink: #25222a;
       --muted: #7d7481;
       --line: #eadde7;
@@ -155,7 +155,7 @@
 
     .hero p {
       margin: 12px auto 0;
-      max-width: 640px;
+      max-width: 700px;
       font-size: 14px;
       line-height: 1.9;
       color: var(--muted);
@@ -421,19 +421,50 @@
     }
 
     .canvas-shell {
-      border-radius: 20px;
-      background: #fff;
-      border: 1px solid var(--line);
-      padding: 10px;
+      position: relative;
+      border-radius: 26px;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255, 214, 231, 0.9), transparent 34%),
+        radial-gradient(circle at 90% 0%, rgba(223, 245, 255, 0.9), transparent 36%),
+        rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(234, 221, 231, 0.9);
+      padding: 14px;
       overflow: hidden;
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.7),
+        0 16px 36px rgba(89, 50, 80, 0.1);
+    }
+
+    .canvas-shell::before {
+      content: "♡";
+      position: absolute;
+      top: 10px;
+      right: 18px;
+      font-family: "Yomogi", cursive;
+      font-size: 28px;
+      color: rgba(255, 138, 183, 0.28);
+      transform: rotate(12deg);
+      pointer-events: none;
+    }
+
+    .canvas-shell::after {
+      content: "8 visual board";
+      position: absolute;
+      left: 18px;
+      bottom: 10px;
+      font-family: "Yomogi", cursive;
+      font-size: 14px;
+      color: rgba(125, 116, 129, 0.34);
+      pointer-events: none;
     }
 
     canvas {
       width: 100%;
       height: auto;
       display: block;
-      border-radius: 14px;
+      border-radius: 18px;
       background: #fff;
+      box-shadow: 0 10px 24px rgba(89, 50, 80, 0.08);
     }
 
     .preview-actions {
@@ -463,6 +494,18 @@
       text-align: center;
     }
 
+    .note-box {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: rgba(255, 241, 184, 0.55);
+      border: 1px solid rgba(234, 221, 231, 0.9);
+      color: #6d5e58;
+      font-size: 12px;
+      line-height: 1.75;
+      font-weight: 700;
+    }
+
     .toast {
       position: fixed;
       left: 50%;
@@ -485,18 +528,6 @@
     .toast.show {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
-    }
-
-    .note-box {
-      margin-top: 14px;
-      padding: 12px 14px;
-      border-radius: 18px;
-      background: rgba(255, 241, 184, 0.55);
-      border: 1px solid rgba(234, 221, 231, 0.9);
-      color: #6d5e58;
-      font-size: 12px;
-      line-height: 1.75;
-      font-weight: 700;
     }
 
     @media (max-width: 920px) {
@@ -570,7 +601,7 @@
       <h1>8 VISUAL BOARD</h1>
       <p>
         8人の写真を公式順に並べて、1枚の保存画像に。<br>
-        アー写・オフショ・衣装別まとめなど、好きな8枚セットをきれいに残せます。
+        画像同士はシームレスにつながるので、アー写・オフショ・衣装別まとめをきれいに残せます。
       </p>
     </section>
 
@@ -579,14 +610,14 @@
         <div class="card-head">
           <div class="card-title">写真をアップロード</div>
           <div class="card-note">
-            画像はこの端末内で処理されます。公式から出る縦長写真に合わせて、各枠は3:4比率で作っています。
+            画像はこの端末内で処理されます。保存画像では、画像同士のすき間がないシームレスなレイアウトになります。
           </div>
         </div>
 
         <div class="section">
           <div class="section-title">
             レイアウト
-            <span class="tiny">まずは4×2がおすすめ</span>
+            <span class="tiny">4×2 / 2×4 を切り替え</span>
           </div>
           <div class="chips" id="layoutChips">
             <button type="button" class="chip is-active" data-layout="4x2">4×2</button>
@@ -600,22 +631,35 @@
               <input type="checkbox" id="showNames" checked>
               手書きネームを表示
             </label>
-            <span class="tiny">ON/OFFできます</span>
+            <span class="tiny">PNG素材を使用</span>
           </div>
 
           <div class="section-title" style="margin-top: 14px;">
             ネームカラー
-            <span class="tiny">写真に合わせて選択</span>
+            <span class="tiny">白 / グレー</span>
           </div>
 
           <div class="chips" id="nameColorChips">
             <button type="button" class="chip is-active" data-name-color="w">白</button>
             <button type="button" class="chip" data-name-color="g">グレー</button>
           </div>
+
+          <div class="section-title" style="margin-top: 14px;">
+            エフェクト
+            <span class="tiny">ふんわり補正</span>
+          </div>
+
+          <div class="chips" id="effectChips">
+            <button type="button" class="chip" data-effect="none">なし</button>
+            <button type="button" class="chip is-active" data-effect="soft">ふんわり</button>
+          </div>
         </div>
 
         <div class="section">
-          <div class="section-title">背景</div>
+          <div class="section-title">
+            背景
+            <span class="tiny">未設定枠にも反映</span>
+          </div>
           <div class="chips" id="bgChips">
             <button type="button" class="chip is-active" data-bg="milk">白</button>
             <button type="button" class="chip" data-bg="pink">ピンク</button>
@@ -633,8 +677,8 @@
           <div class="upload-grid" id="uploadGrid"></div>
 
           <div class="note-box">
-            写真を入れたあと、各メンバーごとに「拡大」「左右」「上下」を微調整できます。
-            顔の位置が少しずれている写真でも、保存画像ではきれいにそろえやすい仕様です。
+            写真はアップロードのみ対応です。<br>
+            入れたあとに「拡大」「左右」「上下」を調整できます。
           </div>
         </div>
 
@@ -650,7 +694,7 @@
         <div class="card-head">
           <div class="card-title">完成イメージ</div>
           <div class="card-note">
-            スマホでは共有メニューから画像保存・X投稿などに進めます。
+            スマホでは共有メニューから画像保存・投稿に進めます。
           </div>
         </div>
 
@@ -676,17 +720,15 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    const NAME_ASSET_BASE = "./assets/names/";
-
     const MEMBERS = [
-      { key: "kairyu", label: "KAIRYU" },
-      { key: "naoya", label: "NAOYA" },
-      { key: "ran", label: "RAN" },
-      { key: "seito", label: "SEITO" },
-      { key: "ryuki", label: "RYUKI" },
-      { key: "takuto", label: "TAKUTO" },
-      { key: "hayato", label: "HAYATO" },
-      { key: "eiki", label: "EIKI" }
+      { key: "kairyu", label: "KAIRYU", files: { w: "./assets/names/kairyu_w.png", g: "./assets/names/kairyu_g.png" } },
+      { key: "naoya",  label: "NAOYA",  files: { w: "./assets/names/naoya_w.png",  g: "./assets/names/naoya_g.png" } },
+      { key: "ran",    label: "RAN",    files: { w: "./assets/names/ran_w.png",    g: "./assets/names/ran_g.png" } },
+      { key: "seito",  label: "SEITO",  files: { w: "./assets/names/seito_w.png",  g: "./assets/names/seito_g.png" } },
+      { key: "ryuki",  label: "RYUKI",  files: { w: "./assets/names/ryuki_w.png",  g: "./assets/names/ryuki_g.png" } },
+      { key: "takuto", label: "TAKUTO", files: { w: "./assets/names/takuto_w.png", g: "./assets/names/takuto_g.png" } },
+      { key: "hayato", label: "HAYATO", files: { w: "./assets/names/hayato_w.png", g: "./assets/names/hayato_g.png" } },
+      { key: "eiki",   label: "EIKI",   files: { w: "./assets/names/eiki_w.png",   g: "./assets/names/eiki_g.png" } }
     ];
 
     const state = {
@@ -694,6 +736,7 @@
       bg: "milk",
       showNames: true,
       nameColor: "w",
+      effect: "soft",
       items: MEMBERS.map(() => ({
         img: null,
         url: "",
@@ -704,40 +747,23 @@
     };
 
     const nameAssets = {};
-
-    const bgMap = {
-      milk: {
-        board: "#fffafc",
-        tile: "#f7f1f6",
-        border: "rgba(37,34,42,0.12)"
-      },
-      pink: {
-        board: "#fff2f8",
-        tile: "#ffe4ef",
-        border: "rgba(255,138,183,0.35)"
-      },
-      gray: {
-        board: "#f3f3f6",
-        tile: "#e8e8ee",
-        border: "rgba(37,34,42,0.12)"
-      },
-      black: {
-        board: "#18161c",
-        tile: "#27242c",
-        border: "rgba(255,255,255,0.18)"
-      }
-    };
-
     const uploadGrid = document.getElementById("uploadGrid");
     const canvas = document.getElementById("boardCanvas");
     const ctx = canvas.getContext("2d");
     const toast = document.getElementById("toast");
 
+    const bgMap = {
+      milk: { board: "#fffafc" },
+      pink: { board: "#fff2f8" },
+      gray: { board: "#f3f3f6" },
+      black: { board: "#18161c" }
+    };
+
     function showToast(message) {
       toast.textContent = message;
       toast.classList.add("show");
-      window.clearTimeout(showToast.timer);
-      showToast.timer = window.setTimeout(() => {
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => {
         toast.classList.remove("show");
       }, 2400);
     }
@@ -749,7 +775,7 @@
         img.onload = () => resolve(img);
 
         img.onerror = () => {
-          console.warn("ネーム素材を読み込めませんでした:", src);
+          console.warn("画像を読み込めませんでした:", src);
           resolve(null);
         };
 
@@ -758,11 +784,25 @@
     }
 
     async function loadNameAssets() {
+      let missingCount = 0;
+
       for (const member of MEMBERS) {
+        const white = await loadImage(member.files.w);
+        const gray = await loadImage(member.files.g);
+
+        if (!white) missingCount++;
+        if (!gray) missingCount++;
+
         nameAssets[member.key] = {
-          w: await loadImage(`${NAME_ASSET_BASE}${member.key}_w.png`),
-          g: await loadImage(`${NAME_ASSET_BASE}${member.key}_g.png`)
+          w: white,
+          g: gray
         };
+      }
+
+      if (missingCount === 0) {
+        console.log("ネームアセット読み込み完了");
+      } else {
+        console.warn("一部のネームアセットが読み込めませんでした。ファイル名と置き場所を確認してください。");
       }
 
       drawBoard();
@@ -773,18 +813,14 @@
         return {
           cols: 2,
           rows: 4,
-          width: 1200,
-          gap: 18,
-          pad: 54
+          width: 1200
         };
       }
 
       return {
         cols: 4,
         rows: 2,
-        width: 1600,
-        gap: 18,
-        pad: 58
+        width: 1600
       };
     }
 
@@ -796,6 +832,7 @@
 
         const card = document.createElement("div");
         card.className = "upload-card";
+
         card.innerHTML = `
           <div class="member-label">${member.label}</div>
 
@@ -817,7 +854,7 @@
               class="file-input"
               id="file-${index}"
               type="file"
-              accept="image/*"
+              accept=".jpg,.jpeg,.png,.webp"
               data-file-index="${index}"
             >
           </div>
@@ -894,17 +931,6 @@
       drawBoard();
     }
 
-    function roundedRect(ctx, x, y, w, h, r) {
-      const radius = Math.min(r, w / 2, h / 2);
-      ctx.beginPath();
-      ctx.moveTo(x + radius, y);
-      ctx.arcTo(x + w, y, x + w, y + h, radius);
-      ctx.arcTo(x + w, y + h, x, y + h, radius);
-      ctx.arcTo(x, y + h, x, y, radius);
-      ctx.arcTo(x, y, x + w, y, radius);
-      ctx.closePath();
-    }
-
     function drawCoverImage(ctx, img, dx, dy, dw, dh, item) {
       const baseScale = Math.max(dw / img.naturalWidth, dh / img.naturalHeight);
       const finalScale = baseScale * item.scale;
@@ -917,55 +943,77 @@
       const sx = dx + (dw - sw) / 2 + offsetX;
       const sy = dy + (dh - sh) / 2 + offsetY;
 
-      ctx.drawImage(img, sx, sy, sw, sh);
+      if (state.effect === "soft") {
+        ctx.save();
+        ctx.filter = "blur(10px) brightness(1.08) saturate(1.08)";
+        ctx.globalAlpha = 0.18;
+        ctx.drawImage(img, sx, sy, sw, sh);
+        ctx.restore();
+
+        ctx.save();
+        ctx.filter = "brightness(1.04) saturate(1.08) contrast(0.97)";
+        ctx.drawImage(img, sx, sy, sw, sh);
+        ctx.restore();
+      } else {
+        ctx.drawImage(img, sx, sy, sw, sh);
+      }
     }
 
-    function drawPlaceholder(ctx, x, y, w, h, colors) {
+    function drawPlaceholder(ctx, x, y, w, h) {
+      const colors = {
+        milk: ["#fff7fb", "#f8fbff"],
+        pink: ["#fff1f8", "#ffe4ef"],
+        gray: ["#f5f4f7", "#e9e8ee"],
+        black: ["#1f1c24", "#302b36"]
+      };
+
+      const selected = colors[state.bg] || colors.milk;
+
       const grad = ctx.createLinearGradient(x, y, x + w, y + h);
-      grad.addColorStop(0, colors.tile);
-      grad.addColorStop(1, state.bg === "black" ? "#34303a" : "#ffffff");
+      grad.addColorStop(0, selected[0]);
+      grad.addColorStop(1, selected[1]);
 
       ctx.fillStyle = grad;
-      roundedRect(ctx, x, y, w, h, 22);
-      ctx.fill();
+      ctx.fillRect(x, y, w, h);
 
-      ctx.save();
-      ctx.globalAlpha = state.bg === "black" ? 0.22 : 0.18;
-      ctx.fillStyle = state.bg === "black" ? "#ffffff" : "#25222a";
+      if (state.effect === "soft") {
+        ctx.save();
 
-      ctx.beginPath();
-      ctx.arc(x + w / 2, y + h * 0.36, w * 0.13, 0, Math.PI * 2);
-      ctx.fill();
+        const glow = ctx.createRadialGradient(
+          x + w * 0.5,
+          y + h * 0.42,
+          w * 0.05,
+          x + w * 0.5,
+          y + h * 0.42,
+          w * 0.58
+        );
 
-      roundedRect(ctx, x + w * 0.28, y + h * 0.53, w * 0.44, h * 0.22, w * 0.12);
-      ctx.fill();
+        glow.addColorStop(0, state.bg === "black" ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.45)");
+        glow.addColorStop(1, "rgba(255,255,255,0)");
 
-      ctx.restore();
+        ctx.fillStyle = glow;
+        ctx.fillRect(x, y, w, h);
 
-      ctx.save();
-      ctx.fillStyle = state.bg === "black" ? "rgba(255,255,255,0.55)" : "rgba(37,34,42,0.35)";
-      ctx.font = `700 ${Math.round(w * 0.07)}px "M PLUS Rounded 1c", sans-serif`;
-      ctx.textAlign = "center";
-      ctx.fillText("画像を追加", x + w / 2, y + h / 2);
-      ctx.restore();
+        ctx.restore();
+      }
     }
 
     function drawNameFallback(ctx, label, x, y, w, h) {
+      if (!state.showNames) return;
+
       ctx.save();
 
       const fontSize = Math.max(34, Math.round(w * 0.13));
-      const labelY = y + h - Math.round(h * 0.075);
+      const labelY = y + h - Math.round(h * 0.08);
 
       ctx.textAlign = "center";
       ctx.textBaseline = "alphabetic";
       ctx.font = `700 ${fontSize}px "Yomogi", "M PLUS Rounded 1c", sans-serif`;
-
-      ctx.shadowColor = "rgba(0,0,0,0.35)";
-      ctx.shadowBlur = 8;
-      ctx.shadowOffsetY = 3;
-
-      ctx.fillStyle = state.nameColor === "g" ? "#9b9b9b" : "#ffffff";
-      ctx.fillText(label, x + w / 2, labelY, w * 0.84);
+      ctx.shadowColor = "rgba(0,0,0,0.24)";
+      ctx.shadowBlur = 6;
+      ctx.shadowOffsetY = 2;
+      ctx.fillStyle = state.nameColor === "g" ? "#9e9e9e" : "#ffffff";
+      ctx.fillText(label, x + w / 2, labelY, w * 0.82);
 
       ctx.restore();
     }
@@ -980,29 +1028,71 @@
         return;
       }
 
-      const naturalRatio = asset.naturalWidth / asset.naturalHeight;
-
-      const maxW = w * 0.82;
-      const maxH = h * 0.16;
+      const ratio = asset.naturalWidth / asset.naturalHeight;
+      const maxW = w * 0.78;
+      const maxH = h * 0.15;
 
       let drawW = maxW;
-      let drawH = drawW / naturalRatio;
+      let drawH = drawW / ratio;
 
       if (drawH > maxH) {
         drawH = maxH;
-        drawW = drawH * naturalRatio;
+        drawW = drawH * ratio;
       }
 
       const drawX = x + (w - drawW) / 2;
       const drawY = y + h - drawH - h * 0.035;
 
       ctx.save();
-
-      ctx.shadowColor = "rgba(0,0,0,0.2)";
+      ctx.shadowColor = "rgba(0,0,0,0.16)";
       ctx.shadowBlur = state.nameColor === "w" ? 6 : 3;
       ctx.shadowOffsetY = 2;
-
       ctx.drawImage(asset, drawX, drawY, drawW, drawH);
+      ctx.restore();
+    }
+
+    function applyCuteOverlay(width, height) {
+      if (state.effect !== "soft") return;
+
+      const softLight = ctx.createRadialGradient(
+        width * 0.5, height * 0.38, width * 0.05,
+        width * 0.5, height * 0.38, width * 0.78
+      );
+
+      softLight.addColorStop(0, "rgba(255,255,255,0.13)");
+      softLight.addColorStop(0.48, "rgba(255,238,247,0.08)");
+      softLight.addColorStop(1, "rgba(255,255,255,0)");
+
+      ctx.save();
+      ctx.fillStyle = softLight;
+      ctx.fillRect(0, 0, width, height);
+      ctx.restore();
+
+      const tint = ctx.createLinearGradient(0, 0, width, height);
+      tint.addColorStop(0, "rgba(255,218,235,0.09)");
+      tint.addColorStop(0.5, "rgba(255,255,255,0.02)");
+      tint.addColorStop(1, "rgba(215,245,255,0.07)");
+
+      ctx.save();
+      ctx.fillStyle = tint;
+      ctx.fillRect(0, 0, width, height);
+      ctx.restore();
+
+      ctx.save();
+      ctx.globalAlpha = 0.07;
+      ctx.fillStyle = "#ffffff";
+
+      for (let i = 0; i < 18; i++) {
+        const px = Math.abs(Math.sin(i * 12.9898) * 43758.5453 % 1);
+        const py = Math.abs(Math.sin(i * 78.233) * 12345.6789 % 1);
+        const dotX = px * width;
+        const dotY = py * height;
+        const r = 2 + (i % 3);
+
+        ctx.beginPath();
+        ctx.arc(dotX, dotY, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
 
       ctx.restore();
     }
@@ -1011,57 +1101,58 @@
       const layout = getLayoutInfo();
       const cols = layout.cols;
       const rows = layout.rows;
-      const gap = layout.gap;
-      const pad = layout.pad;
       const width = layout.width;
-      const tileW = Math.floor((width - pad * 2 - gap * (cols - 1)) / cols);
+      const tileW = Math.floor(width / cols);
       const tileH = Math.round(tileW * 4 / 3);
-      const height = pad * 2 + tileH * rows + gap * (rows - 1);
+      const height = tileH * rows;
 
       canvas.width = width;
       canvas.height = height;
 
-      const colors = bgMap[state.bg];
-
       ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = colors.board;
+      ctx.fillStyle = bgMap[state.bg].board;
       ctx.fillRect(0, 0, width, height);
 
       for (let i = 0; i < MEMBERS.length; i++) {
         const member = MEMBERS[i];
         const col = i % cols;
         const row = Math.floor(i / cols);
-
-        const x = pad + col * (tileW + gap);
-        const y = pad + row * (tileH + gap);
+        const x = col * tileW;
+        const y = row * tileH;
         const item = state.items[i];
 
         ctx.save();
-        roundedRect(ctx, x, y, tileW, tileH, 22);
+        ctx.beginPath();
+        ctx.rect(x, y, tileW, tileH);
         ctx.clip();
 
         if (item.img) {
           drawCoverImage(ctx, item.img, x, y, tileW, tileH, item);
         } else {
-          drawPlaceholder(ctx, x, y, tileW, tileH, colors);
+          drawPlaceholder(ctx, x, y, tileW, tileH);
         }
 
         ctx.restore();
+      }
 
-        ctx.save();
-        roundedRect(ctx, x, y, tileW, tileH, 22);
-        ctx.strokeStyle = colors.border;
-        ctx.lineWidth = 3;
-        ctx.stroke();
-        ctx.restore();
+      applyCuteOverlay(width, height);
+
+      for (let i = 0; i < MEMBERS.length; i++) {
+        const member = MEMBERS[i];
+        const col = i % cols;
+        const row = Math.floor(i / cols);
+        const x = col * tileW;
+        const y = row * tileH;
 
         drawNameImage(ctx, member, x, y, tileW, tileH);
       }
     }
 
-    function setActiveChip(groupSelector, dataName, value) {
-      document.querySelectorAll(`${groupSelector} [data-${dataName}]`).forEach(btn => {
-        btn.classList.toggle("is-active", btn.dataset[dataName] === value);
+    function setActiveChip(groupSelector, datasetKey, value) {
+      const attrName = datasetKey.replace(/[A-Z]/g, letter => "-" + letter.toLowerCase());
+
+      document.querySelectorAll(`${groupSelector} [data-${attrName}]`).forEach(btn => {
+        btn.classList.toggle("is-active", btn.dataset[datasetKey] === value);
       });
     }
 
@@ -1074,6 +1165,7 @@
       state.bg = "milk";
       state.showNames = true;
       state.nameColor = "w";
+      state.effect = "soft";
       state.items = MEMBERS.map(() => ({
         img: null,
         url: "",
@@ -1086,6 +1178,7 @@
       setActiveChip("#layoutChips", "layout", "4x2");
       setActiveChip("#bgChips", "bg", "milk");
       setActiveChip("#nameColorChips", "nameColor", "w");
+      setActiveChip("#effectChips", "effect", "soft");
 
       renderUploadGrid();
       drawBoard();
@@ -1115,7 +1208,7 @@
       a.click();
       a.remove();
 
-      window.setTimeout(() => {
+      setTimeout(() => {
         URL.revokeObjectURL(url);
       }, 1200);
     }
@@ -1180,6 +1273,14 @@
       btn.addEventListener("click", () => {
         state.nameColor = btn.dataset.nameColor;
         setActiveChip("#nameColorChips", "nameColor", state.nameColor);
+        drawBoard();
+      });
+    });
+
+    document.querySelectorAll("[data-effect]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        state.effect = btn.dataset.effect;
+        setActiveChip("#effectChips", "effect", state.effect);
         drawBoard();
       });
     });
