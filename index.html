@@ -775,15 +775,15 @@
     function getImageFilter() {
       switch (state.effect) {
         case "soft":
-          return "brightness(1.08) saturate(1.12) contrast(0.94)";
+          return "brightness(1.04) saturate(1.08) contrast(0.97)";
         case "clear":
-          return "brightness(1.13) saturate(0.92) contrast(0.90)";
+          return "brightness(1.08) saturate(0.98) contrast(0.94)";
         case "sparkle":
-          return "brightness(1.12) saturate(1.20) contrast(1.04)";
+          return "brightness(1.07) saturate(1.12) contrast(1.02)";
         case "film":
-          return "sepia(0.28) saturate(0.78) contrast(0.92) brightness(1.03)";
+          return "sepia(0.16) saturate(0.86) contrast(0.96) brightness(1.02)";
         case "mode":
-          return "brightness(0.84) saturate(0.86) contrast(1.28)";
+          return "brightness(0.92) saturate(0.94) contrast(1.15)";
         case "none":
         default:
           return "none";
@@ -803,7 +803,7 @@
       if (state.effect === "soft" || state.effect === "sparkle" || state.effect === "clear") {
         ctx.save();
         ctx.filter = "blur(10px) brightness(1.08) saturate(1.08)";
-        ctx.globalAlpha = state.effect === "sparkle" ? 0.18 : 0.22;
+        ctx.globalAlpha = state.effect === "sparkle" ? 0.12 : 0.16;
         ctx.drawImage(img, sx, sy, sw, sh);
         ctx.restore();
       }
@@ -908,14 +908,14 @@
     }
 
     function blurSeams(boardX, boardY, boardW, boardH, cols, rows, tileW, tileH) {
-      const band = Math.max(24, Math.round(tileW * 0.072));
+      const band = Math.max(18, Math.round(tileW * 0.055));
 
       ctx.save();
       ctx.beginPath();
       ctx.rect(boardX, boardY, boardW, boardH);
       ctx.clip();
-      ctx.filter = "blur(16px)";
-      ctx.globalAlpha = 0.68;
+      ctx.filter = "blur(12px)";
+      ctx.globalAlpha = 0.62;
 
       for (let c = 1; c < cols; c++) {
         const x = boardX + c * tileW;
@@ -986,30 +986,30 @@
 
       if (state.effect === "soft") {
         const softLight = ctx.createRadialGradient(boardX + boardW * 0.5, boardY + boardH * 0.38, boardW * 0.05, boardX + boardW * 0.5, boardY + boardH * 0.38, boardW * 0.78);
-        softLight.addColorStop(0, "rgba(255,255,255,0.20)");
-        softLight.addColorStop(0.48, "rgba(255,226,242,0.14)");
+        softLight.addColorStop(0, "rgba(255,255,255,0.13)");
+        softLight.addColorStop(0.48, "rgba(255,238,247,0.08)");
         softLight.addColorStop(1, "rgba(255,255,255,0)");
         ctx.fillStyle = softLight;
         ctx.fillRect(boardX, boardY, boardW, boardH);
 
         const tint = ctx.createLinearGradient(boardX, boardY, boardX + boardW, boardY + boardH);
-        tint.addColorStop(0, "rgba(255,205,230,0.16)");
-        tint.addColorStop(0.5, "rgba(255,255,255,0.04)");
-        tint.addColorStop(1, "rgba(205,242,255,0.13)");
+        tint.addColorStop(0, "rgba(255,218,235,0.09)");
+        tint.addColorStop(0.5, "rgba(255,255,255,0.02)");
+        tint.addColorStop(1, "rgba(215,245,255,0.07)");
         ctx.fillStyle = tint;
         ctx.fillRect(boardX, boardY, boardW, boardH);
       }
 
       if (state.effect === "clear") {
         const veil = ctx.createLinearGradient(boardX, boardY, boardX + boardW, boardY + boardH);
-        veil.addColorStop(0, "rgba(220,248,255,0.25)");
-        veil.addColorStop(0.45, "rgba(255,255,255,0.14)");
-        veil.addColorStop(1, "rgba(198,229,255,0.22)");
+        veil.addColorStop(0, "rgba(235,250,255,0.16)");
+        veil.addColorStop(0.45, "rgba(255,255,255,0.08)");
+        veil.addColorStop(1, "rgba(216,238,255,0.12)");
         ctx.fillStyle = veil;
         ctx.fillRect(boardX, boardY, boardW, boardH);
 
         const light = ctx.createRadialGradient(boardX + boardW * 0.52, boardY + boardH * 0.34, boardW * 0.05, boardX + boardW * 0.52, boardY + boardH * 0.34, boardW * 0.72);
-        light.addColorStop(0, "rgba(255,255,255,0.24)");
+        light.addColorStop(0, "rgba(255,255,255,0.16)");
         light.addColorStop(1, "rgba(255,255,255,0)");
         ctx.fillStyle = light;
         ctx.fillRect(boardX, boardY, boardW, boardH);
@@ -1017,20 +1017,20 @@
 
       if (state.effect === "sparkle") {
         const tint = ctx.createLinearGradient(boardX, boardY, boardX + boardW, boardY + boardH);
-        tint.addColorStop(0, "rgba(255,220,240,0.18)");
-        tint.addColorStop(0.55, "rgba(255,255,255,0.07)");
-        tint.addColorStop(1, "rgba(210,244,255,0.14)");
+        tint.addColorStop(0, "rgba(255,230,244,0.11)");
+        tint.addColorStop(0.55, "rgba(255,255,255,0.04)");
+        tint.addColorStop(1, "rgba(226,246,255,0.09)");
         ctx.fillStyle = tint;
         ctx.fillRect(boardX, boardY, boardW, boardH);
 
         ctx.globalCompositeOperation = "screen";
-        for (let i = 0; i < 38; i++) {
+        for (let i = 0; i < 26; i++) {
           const px = Math.abs(Math.sin(i * 12.9898) * 43758.5453 % 1);
           const py = Math.abs(Math.sin(i * 78.233) * 12345.6789 % 1);
           const x = boardX + px * boardW;
           const y = boardY + py * boardH;
           const r = 2.5 + (i % 4);
-          const alpha = 0.18 + (i % 5) * 0.032;
+          const alpha = 0.12 + (i % 5) * 0.025;
 
           if (i % 4 === 0) drawStar(x, y, r * 2.2, alpha + 0.06);
           else {
@@ -1044,12 +1044,12 @@
       }
 
       if (state.effect === "film") {
-        ctx.globalAlpha = 0.20;
+        ctx.globalAlpha = 0.12;
         ctx.fillStyle = "#8b6f58";
         ctx.fillRect(boardX, boardY, boardW, boardH);
 
-        ctx.globalAlpha = 0.16;
-        for (let i = 0; i < 1300; i++) {
+        ctx.globalAlpha = 0.10;
+        for (let i = 0; i < 900; i++) {
           const x = boardX + Math.abs(Math.sin(i * 91.17) * 10000 % 1) * boardW;
           const y = boardY + Math.abs(Math.sin(i * 17.31) * 10000 % 1) * boardH;
           const shade = i % 2 === 0 ? 255 : 40;
@@ -1061,12 +1061,12 @@
       if (state.effect === "mode") {
         const vignette = ctx.createRadialGradient(boardX + boardW * 0.5, boardY + boardH * 0.42, boardW * 0.15, boardX + boardW * 0.5, boardY + boardH * 0.42, boardW * 0.82);
         vignette.addColorStop(0, "rgba(0,0,0,0)");
-        vignette.addColorStop(0.64, "rgba(0,0,0,0.10)");
-        vignette.addColorStop(1, "rgba(0,0,0,0.34)");
+        vignette.addColorStop(0.72, "rgba(0,0,0,0.06)");
+        vignette.addColorStop(1, "rgba(0,0,0,0.23)");
         ctx.fillStyle = vignette;
         ctx.fillRect(boardX, boardY, boardW, boardH);
 
-        ctx.globalAlpha = 0.15;
+        ctx.globalAlpha = 0.09;
         ctx.fillStyle = "#0f0d14";
         ctx.fillRect(boardX, boardY, boardW, boardH);
       }
