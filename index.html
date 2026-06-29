@@ -628,7 +628,7 @@
         <div class="section">
           <div class="toggle-row">
             <label>
-              <input type="checkbox" id="showNames" checked>
+              <input type="checkbox" id="showNames">
               手書きネームを表示
             </label>
             <span class="tiny">PNG素材を使用</span>
@@ -746,7 +746,7 @@
     const state = {
       layout: "4x2",
       bg: "milk",
-      showNames: true,
+      showNames: false,
       blurSeams: true,
       nameColor: "w",
       effect: "soft",
@@ -947,15 +947,15 @@
     function getImageFilter() {
       switch (state.effect) {
         case "soft":
-          return "brightness(1.04) saturate(1.08) contrast(0.97)";
+          return "brightness(1.08) saturate(1.12) contrast(0.94)";
         case "clear":
-          return "brightness(1.08) saturate(0.98) contrast(0.94)";
+          return "brightness(1.13) saturate(0.92) contrast(0.90)";
         case "sparkle":
-          return "brightness(1.07) saturate(1.12) contrast(1.02)";
+          return "brightness(1.12) saturate(1.20) contrast(1.04)";
         case "film":
-          return "sepia(0.16) saturate(0.86) contrast(0.96) brightness(1.02)";
+          return "sepia(0.28) saturate(0.78) contrast(0.92) brightness(1.03)";
         case "mode":
-          return "brightness(0.92) saturate(0.94) contrast(1.15)";
+          return "brightness(0.84) saturate(0.86) contrast(1.28)";
         case "none":
         default:
           return "none";
@@ -977,7 +977,7 @@
       if (state.effect === "soft" || state.effect === "sparkle" || state.effect === "clear") {
         ctx.save();
         ctx.filter = "blur(10px) brightness(1.08) saturate(1.08)";
-        ctx.globalAlpha = state.effect === "sparkle" ? 0.12 : 0.16;
+        ctx.globalAlpha = state.effect === "sparkle" ? 0.18 : 0.22;
         ctx.drawImage(img, sx, sy, sw, sh);
         ctx.restore();
       }
@@ -1083,11 +1083,11 @@
     function blurSeams(width, height, cols, rows, tileW, tileH) {
       if (!state.blurSeams) return;
 
-      const band = Math.max(18, Math.round(tileW * 0.055));
+      const band = Math.max(24, Math.round(tileW * 0.072));
 
       ctx.save();
-      ctx.filter = "blur(12px)";
-      ctx.globalAlpha = 0.62;
+      ctx.filter = "blur(16px)";
+      ctx.globalAlpha = 0.68;
 
       for (let c = 1; c < cols; c++) {
         const x = c * tileW;
@@ -1155,8 +1155,8 @@
 
       if (state.effect === "soft") {
         const softLight = ctx.createRadialGradient(width * 0.5, height * 0.38, width * 0.05, width * 0.5, height * 0.38, width * 0.78);
-        softLight.addColorStop(0, "rgba(255,255,255,0.13)");
-        softLight.addColorStop(0.48, "rgba(255,238,247,0.08)");
+        softLight.addColorStop(0, "rgba(255,255,255,0.20)");
+        softLight.addColorStop(0.48, "rgba(255,226,242,0.14)");
         softLight.addColorStop(1, "rgba(255,255,255,0)");
 
         ctx.save();
@@ -1165,9 +1165,9 @@
         ctx.restore();
 
         const tint = ctx.createLinearGradient(0, 0, width, height);
-        tint.addColorStop(0, "rgba(255,218,235,0.09)");
-        tint.addColorStop(0.5, "rgba(255,255,255,0.02)");
-        tint.addColorStop(1, "rgba(215,245,255,0.07)");
+        tint.addColorStop(0, "rgba(255,205,230,0.16)");
+        tint.addColorStop(0.5, "rgba(255,255,255,0.04)");
+        tint.addColorStop(1, "rgba(205,242,255,0.13)");
 
         ctx.save();
         ctx.fillStyle = tint;
@@ -1177,9 +1177,9 @@
 
       if (state.effect === "clear") {
         const veil = ctx.createLinearGradient(0, 0, width, height);
-        veil.addColorStop(0, "rgba(235,250,255,0.16)");
-        veil.addColorStop(0.45, "rgba(255,255,255,0.08)");
-        veil.addColorStop(1, "rgba(216,238,255,0.12)");
+        veil.addColorStop(0, "rgba(220,248,255,0.25)");
+        veil.addColorStop(0.45, "rgba(255,255,255,0.14)");
+        veil.addColorStop(1, "rgba(198,229,255,0.22)");
 
         ctx.save();
         ctx.fillStyle = veil;
@@ -1187,7 +1187,7 @@
         ctx.restore();
 
         const light = ctx.createRadialGradient(width * 0.52, height * 0.34, width * 0.05, width * 0.52, height * 0.34, width * 0.72);
-        light.addColorStop(0, "rgba(255,255,255,0.16)");
+        light.addColorStop(0, "rgba(255,255,255,0.24)");
         light.addColorStop(1, "rgba(255,255,255,0)");
 
         ctx.save();
@@ -1198,9 +1198,9 @@
 
       if (state.effect === "sparkle") {
         const tint = ctx.createLinearGradient(0, 0, width, height);
-        tint.addColorStop(0, "rgba(255,230,244,0.11)");
-        tint.addColorStop(0.55, "rgba(255,255,255,0.04)");
-        tint.addColorStop(1, "rgba(226,246,255,0.09)");
+        tint.addColorStop(0, "rgba(255,220,240,0.18)");
+        tint.addColorStop(0.55, "rgba(255,255,255,0.07)");
+        tint.addColorStop(1, "rgba(210,244,255,0.14)");
 
         ctx.save();
         ctx.fillStyle = tint;
@@ -1210,13 +1210,13 @@
         ctx.save();
         ctx.globalCompositeOperation = "screen";
 
-        for (let i = 0; i < 26; i++) {
+        for (let i = 0; i < 38; i++) {
           const px = Math.abs(Math.sin(i * 12.9898) * 43758.5453 % 1);
           const py = Math.abs(Math.sin(i * 78.233) * 12345.6789 % 1);
           const x = px * width;
           const y = py * height;
           const r = 2.5 + (i % 4);
-          const alpha = 0.12 + (i % 5) * 0.025;
+          const alpha = 0.18 + (i % 5) * 0.032;
 
           if (i % 4 === 0) {
             drawStar(ctx, x, y, r * 2.2, alpha + 0.06);
@@ -1234,15 +1234,15 @@
 
       if (state.effect === "film") {
         ctx.save();
-        ctx.globalAlpha = 0.12;
+        ctx.globalAlpha = 0.20;
         ctx.fillStyle = "#8b6f58";
         ctx.fillRect(0, 0, width, height);
         ctx.restore();
 
         ctx.save();
-        ctx.globalAlpha = 0.10;
+        ctx.globalAlpha = 0.16;
 
-        for (let i = 0; i < 900; i++) {
+        for (let i = 0; i < 1300; i++) {
           const x = Math.abs(Math.sin(i * 91.17) * 10000 % 1) * width;
           const y = Math.abs(Math.sin(i * 17.31) * 10000 % 1) * height;
           const shade = i % 2 === 0 ? 255 : 40;
@@ -1256,8 +1256,8 @@
       if (state.effect === "mode") {
         const vignette = ctx.createRadialGradient(width * 0.5, height * 0.42, width * 0.15, width * 0.5, height * 0.42, width * 0.82);
         vignette.addColorStop(0, "rgba(0,0,0,0)");
-        vignette.addColorStop(0.72, "rgba(0,0,0,0.06)");
-        vignette.addColorStop(1, "rgba(0,0,0,0.23)");
+        vignette.addColorStop(0.64, "rgba(0,0,0,0.10)");
+        vignette.addColorStop(1, "rgba(0,0,0,0.34)");
 
         ctx.save();
         ctx.fillStyle = vignette;
@@ -1265,7 +1265,7 @@
         ctx.restore();
 
         ctx.save();
-        ctx.globalAlpha = 0.09;
+        ctx.globalAlpha = 0.15;
         ctx.fillStyle = "#0f0d14";
         ctx.fillRect(0, 0, width, height);
         ctx.restore();
@@ -1339,7 +1339,7 @@
 
       state.layout = "4x2";
       state.bg = "milk";
-      state.showNames = true;
+      state.showNames = false;
       state.blurSeams = true;
       state.nameColor = "w";
       state.effect = "soft";
@@ -1351,7 +1351,7 @@
         y: 0
       }));
 
-      document.getElementById("showNames").checked = true;
+      document.getElementById("showNames").checked = false;
       document.getElementById("blurSeams").checked = true;
       setActiveChip("#layoutChips", "layout", "4x2");
       setActiveChip("#bgChips", "bg", "milk");
